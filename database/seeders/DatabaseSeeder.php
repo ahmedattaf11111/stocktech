@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,12 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Admin::create([
-            "email" => "admin@admin.com",
-            "password" => "123456"
-        ]);
-        $this->call(LevelSeeder::class);
-        $this->call(ContestTypeSeeder::class);
-        $this->call(TestTypeSeeder::class);
+        
+        // \App\Models\User::factory(10)->create();
     }
 }

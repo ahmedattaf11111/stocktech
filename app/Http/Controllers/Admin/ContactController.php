@@ -3,29 +3,35 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\ContactRepository;
+use App\Models\Contact;
+use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
-    private $contactRepository;
-    public function __construct(ContactRepository $contactRepository)
+    public function __construct()
     {
-        $this->middleware('auth:admin');
-        $this->contactRepository = $contactRepository;
-    }
-    public function delete($id)
-    {
-        $brand = $this->contactRepository->delete($id);
-        return response()->json("Item with id : $brand->id deleted successfully");
+        $this->middleware("permission:super admin|view contact")->only(["index", "indexData"]);
+        $this->middleware("permission:super admin|delete contact")->only("destroy");
     }
 
     public function index()
     {
-        $text = isset(request()->text) ? request()->text : '';
-        return $this->contactRepository->getContacts($text, request()->page_size, request()->status);
+        $items = Contact::latest()->paginate(request()->page_size);
+        return view('admin.contact', ["items" => $items]);
     }
-    public function find($id)
+
+    public function indexData()
     {
-        return $this->contactRepository->getContact($id);
+        return Contact::when(request()->text, function ($q) {
+            $q->where("name", "like", "%" . request()->text . "%")
+                ->where("email", "like", "%" . request()->text . "%");
+        })->latest()->paginate(request()->page_size);
+    }
+    public function destroy()
+    {
+        foreach (request()->ids as $id) {
+            $team = Contact::find($id);
+            $team->delete();
+        }
     }
 }

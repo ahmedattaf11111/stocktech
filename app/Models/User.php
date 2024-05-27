@@ -2,25 +2,22 @@
 
 namespace App\Models;
 
-use App\Commons\Traits\Image;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Contracts\Auth\CanResetPassword;
 use Laravel\Sanctum\HasApiTokens;
-class User extends Authenticatable implements JWTSubject, MustVerifyEmail, CanResetPassword
-{
-    use HasApiTokens, HasFactory, Notifiable,Image;
+use Spatie\Permission\Traits\HasRoles;
 
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable,HasRoles;
+    protected $guard_name = 'admin'; 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $guarded = ["roles"];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -32,10 +29,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, CanRe
         'remember_token',
     ];
 
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes["password"] = Hash::make($value);
-    }
     /**
      * The attributes that should be cast.
      *
@@ -43,28 +36,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, CanRe
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'technology' => 'json',
     ];
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
+    public function country(){
+        return $this->belongsTo(Location::class);
     }
-    public function getJWTCustomClaims()
-    {
-        return [
-            "id" => $this->id,
-            "email" => $this->email,
-            "image" => $this->image,
-            "first_name" => $this->first_name,
-            "last_name" => $this->last_name,
-            "phone" => $this->phone,
-            "address" => $this->address,
-            "city" => $this->city,
-            "age" => $this->age,
-            "education" => $this->education,
-            "job" => $this->job,
-            "about_me" => $this->about_me,
-            "email_verified_at" => $this->email_verified_at,
-        ];
-    }
-   
 }

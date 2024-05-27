@@ -3,20 +3,37 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Web\ContactRequest;
-use App\Repositories\ContactRepository;
+use App\Models\Blog;
+use App\Models\Contact;
+use App\Models\Review;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
-    private $contactRepository;
-    public function __construct(ContactRepository $contactRepository)
+    public function store(Request $request)
     {
-        $this->contactRepository = $contactRepository;
+        // Validator request
+        $v = Validator::make($request->all(), [
+            'name' => "required",
+            'email' => "required",
+            'subject' => "required",
+            'message' => "required",
+        ]);
+        if ($v->fails()) {
+            return response()->json($v->errors(), 422);
+        }
+        Contact::create($v->validated());
     }
-    public function store(ContactRequest $request)
+    public function index()
     {
-        $input = $request->validated();
-        $brand = $this->contactRepository->store($input);
-        return response()->json("Item created successfully with id : $brand->id");
+
+        return view(
+            'web.contact',
+            [
+                "reviews" => Review::get(),
+                "blogs" => Blog::take(2)->get(),
+            ]
+        );
     }
 }

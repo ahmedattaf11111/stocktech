@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:admin')->except("login");
+        // $this->middleware('auth')->except("postLogin", "login");
     }
     public function verifyToken()
     {
@@ -17,23 +17,23 @@ class AuthController extends Controller
     }
     public function login()
     {
-        $credentials = request(['email', 'password']);
-        if (!$token = Auth::guard("admin")->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-        return $this->respondWithToken($token);
+        return view('admin.login');
     }
+    public function postLogin()
+    {
+        $credentials = request(['email', 'password']);
+        $credentials["type"] = ["admin", "employee"];
+        $credentials["status"] = 1;
+        if (Auth::attempt($credentials)) {
+            return response()->json(["message" => "authentication success"]);
+        } else {
+            return response()->json(["message" => "authentication faild"], 400);
+        }
+    }
+
     public function logout()
     {
         auth()->logout();
-    }
-    //Commons
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ]);
+        return redirect()->route("admin.login");
     }
 }

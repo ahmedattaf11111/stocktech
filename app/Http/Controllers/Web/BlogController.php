@@ -4,25 +4,42 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\BlogCategory;
+use App\Models\BlogTag;
+use App\Models\Review;
 
 class BlogController extends Controller
 {
-    public function getBlogs()
+    public function find($id)
     {
-        if (request()->limit) {
-            return Blog::where("status", 1)->with("mediaManager")->take(request()->limit)->get();
-        }
-        if (request()->page_size) {
-            return Blog::with("mediaManager")
-                ->orderBy("id", "desc")->paginate(request()->page_size);
-        }
+        $blog = Blog::with("blogCategories", "blogTags")->find($id);
+        return view(
+            'web.blog-details',
+            [
+                "blog" => $blog,
+                "categories" => BlogCategory::withCount("blogs")->take(5)->get(),
+                "blogs" => Blog::take(3)->get(),
+                "tags" => BlogTag::withCount("blogs")->take(5)->get(),
+            ]
+        );
     }
-    public function getLatestBlogs()
+    public function index()
     {
-        return Blog::where("status", 1)->with("mediaManager")->take(request()->limit)->orderBy("id", "desc")->get();
-    }
-    public function getBlog($id)
-    {
-        return Blog::with("mediaManager")->find($id);
+        $blogs = Blog::when(request()->text, function ($q) {
+            $q->where("name", "like", "%" . request()->text . "%");
+        })->when(request()->tag_id, function ($q) {
+            $q->whereRelation("blogTags", "blog_tags.id", request()->tag_id);
+        })->when(request()->category_id, function ($q) {
+            $q->whereRelation("blogCategories", "blog_categories.id", request()->category_id);
+        });
+        if ($blogs->count() > 0) {
+            return view("web.blog", [
+                "blogs" => $blogs->paginate(request()->page_size),
+                "reviews"=>Review::get(),
+                "recent_blogs"=>Blog::take(2)->get(),
+         
+            ]);
+        }
+        return redirect()->back();
     }
 }

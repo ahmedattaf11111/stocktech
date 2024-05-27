@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class About extends Model
 {
-    use HasFactory;
     protected $guarded = [];
-    public function mediaManager(){
-        return $this->belongsTo(MediaManager::class);
-    }
+    use HasFactory;
+    public $casts = ["images" => "json"];
 }

@@ -3,64 +3,136 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreEmployeeRequest;
-use App\Http\Requests\Admin\UpdateEmployeeRequest;
-use App\Repositories\EmployeeRepository;
-use App\Models\Student;
-
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
-    private $employeeRepository;
-    public function __construct(EmployeeRepository $employeeRepository)
+    public function __construct()
     {
-        $this->middleware('auth:admin');
-        $this->employeeRepository = $employeeRepository;
-    }
-
-    public function store(StoreEmployeeRequest $request)
-    {
-        $brand = $this->employeeRepository->store($request->validated());
-        return response()->json("Item created successfully with id : $brand->id");
-    }
-
-    public function update(UpdateEmployeeRequest $request)
-    {
-        $input = $request->validated();
-        if ($request->file(("cv"))) {
-            $input["cv"] = $request->file("cv")->store("");
-        }
-        $brand = $this->employeeRepository->update($input);
-        return response()->json("Item with id : $brand->id updated successfully");
-    }
-
-    public function delete($id)
-    {
-        $brand = $this->employeeRepository->delete($id);
-        if ($brand->cv) {
-            Storage::delete($brand->cv);
-        }
-        return response()->json("Item with id : $brand->id deleted successfully");
+        $this->middleware("permission:super admin|create employee")->only(["store","storeRole"]);
+        $this->middleware("permission:super admin|update employee")->only("update","updateRole");
+        $this->middleware("permission:super admin|view employee")->only(["index", "indexData","indexDataRole"]);
+        $this->middleware("permission:super admin|delete employee")->only("destroy","destroyRole");
     }
 
     public function index()
     {
-        $text = isset(request()->text) ? request()->text : '';
-        return $this->employeeRepository->getEmployees($text, request()->page_size, request()->status);
-    }
-    public function toggleStatus($id)
-    {
-        $brand = $this->employeeRepository->toggleStatus($id);
-        return response()->json("Status of item with id : $brand->id updated successfully");
-    }
-    public function find($id)
-    {
-        return $this->employeeRepository->getEmployee($id);
+        $items = User::with("roles")->where("type","employee")->orderBy("id", "desc")->paginate(request()->page_size);
+        $roles = Role::with("users")->orderBy("id", "desc")->with("permissions")->paginate(request()->page_size_role);
+        $allRoles = Role::get();
+        return view('admin.employee', ["items" => $items, "itemsRole" => $roles,"roles"=>$allRoles]);
     }
 
-    public function getStudents()
+    public function indexData()
     {
-        return Student::where("status", 1)->get();
+        return User::with("roles")->where("type","employee")->when(request()->text, function ($q) {
+            $q->where("name", "like", "%" . request()->text . "%");
+        })->orderBy("id", "desc")->paginate(request()->page_size);
+    }
+
+    public function store(Request $request)
+    {
+        // Validator request
+        $v = Validator::make($request->all(), [
+            'name' => "required",
+            'email' => "required",
+            'password' => "required",
+            "roles" => "required|array",
+            "image" => "required"
+        ]);
+        if ($v->fails()) {
+            return response()->json($v->errors(), 422);
+        }
+        $input = $v->validated();
+        $input["image"] = $request->file("image")->store("");
+        $input["type"] = "employee";
+        $input["password"] = Hash::make($request->password);
+        $user = User::create($input);
+        $user->syncRoles($request->roles);
+    }
+    
+    public function toggleStatus($id)
+    {
+        $user = User::find($id);
+        $user->status = !$user->status;
+        $user->save();
+    }
+    public function update(Request $request, $id)
+    {
+        // Validator request
+        $v = Validator::make($request->all(), [
+            'name' => "required",
+            'email' => "required",
+            'password' => "nullable",
+            "roles" => "required|array",
+            "image" => "nullable"
+        ]);
+        if ($v->fails()) {
+            return response()->json($v->errors(), 422);
+        }
+        $input = $v->validated();
+
+        if($request->password){
+            $input["password"] = Hash::make($request->password);
+        }
+        $user = User::find($id);
+        if ($request->file("image")) {
+            $input["image"] = $request->file("image")->store("");
+            Storage::delete($user->image);
+        }
+        $user->update($input);
+        $user->syncRoles($request->roles);
+    }
+
+    public function destroy()
+    {
+        foreach (request()->ids as $id) {
+            $team = User::find($id);
+            Storage::delete($team->image);
+            $team->delete();
+        }
+    }
+
+    public function storeRole(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'name' => "required",
+            "permissions" => "required|array"
+        ]);
+        if ($v->fails()) {
+            return response()->json($v->errors(), 422);
+        }
+        $role = Role::create(["name" => $request->name, "guard_name" => "admin"]);
+        $role->syncPermissions($request->permissions);
+    }
+    public function destroyRole($id)
+    {
+        Role::destroy($id);
+    }
+    public function updateRole(Request $request, $id)
+    {
+        $v = Validator::make($request->all(), [
+            'name' => "required",
+            "permissions" => "required|array"
+        ]);
+        if ($v->fails()) {
+            return response()->json($v->errors(), 422);
+        }
+        $role = Role::find($id);
+        $role->name = $request->name;
+        $role->save();
+        $role->syncPermissions($request->permissions);
+    }
+    public function indexDataRoles()
+    {
+        return Role::with("permissions","users")->orderBy("id", "desc")->paginate(request()->page_size);
+    }
+    public function getAllRoles(){
+        return Role::get();
     }
 }

@@ -8,12 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class Blog extends Model
 {
     use HasFactory;
-    protected $casts = [
-        "created_at" => "date:d M"
-    ];
-    protected $guarded = [];
-    public function mediaManager()
+    public $guarded = ["categories_ids"];
+    public $appends = ["name_trans", "content_trans"];
+    public function blogCategories()
     {
-        return $this->belongsTo(MediaManager::class);
+        return $this->belongsToMany(BlogCategory::class, CategoryBlog::class, "blog_id", "category_id");
+    }
+
+    public function blogTags()
+    {
+        return $this->belongsToMany(BlogTag::class, TagBlog::class, "blog_id", "tag_id");
+    }
+    public function getNameTransAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->name_ar : $this->name;
+    }
+    public function getContentTransAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->content_ar : $this->content;
     }
 }

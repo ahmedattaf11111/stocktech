@@ -56,7 +56,18 @@ class ServiceController extends Controller
             $images[] = $file->store("");
         }
         $input["images"] = $images;
-        Service::create($input);
+        $service = Service::create($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Service", "model_id" => $service->id],
+            ['key' => "detail_content", "value" => request()->detail_content, "class" => "Service", "model_id" => $service->id],
+            ['key' => "detail_point_one", "value" => request()->detail_point_one, "class" => "Service", "model_id" => $service->id],
+            ['key' => "detail_point_tow", "value" => request()->detail_point_tow, "class" => "Service", "model_id" => $service->id],
+            ['key' => "detail_point_three", "value" => request()->detail_point_three, "class" => "Service", "model_id" => $service->id],
+            ['key' => "detail_point_four", "value" => request()->detail_point_four, "class" => "Service", "model_id" => $service->id],
+            ['key' => "detail_point_five", "value" => request()->detail_point_five, "class" => "Service", "model_id" => $service->id],
+            ['key' => "detail_point_six", "value" => request()->detail_point_six, "class" => "Service", "model_id" => $service->id],
+            ['key' => "description", "value" => request()->description, "class" => "Service", "model_id" => $service->id],
+        ]);
     }
     public function update(Request $request, $id)
     {
@@ -90,6 +101,18 @@ class ServiceController extends Controller
             $input["images"] = $images;
         }
         $item->update($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Service", "model_id" => $item->id],
+            ['key' => "detail_content", "value" => request()->detail_content, "class" => "Service", "model_id" => $item->id],
+            ['key' => "detail_point_one", "value" => request()->detail_point_one, "class" => "Service", "model_id" => $item->id],
+            ['key' => "detail_point_tow", "value" => request()->detail_point_tow, "class" => "Service", "model_id" => $item->id],
+            ['key' => "detail_point_three", "value" => request()->detail_point_three, "class" => "Service", "model_id" => $item->id],
+            ['key' => "detail_point_four", "value" => request()->detail_point_four, "class" => "Service", "model_id" => $item->id],
+            ['key' => "detail_point_five", "value" => request()->detail_point_five, "class" => "Service", "model_id" => $item->id],
+            ['key' => "detail_point_six", "value" => request()->detail_point_six, "class" => "Service", "model_id" => $item->id],
+            ['key' => "description", "value" => request()->description, "class" => "Service", "model_id" => $item->id],
+        ]);
+
     }
 
     public function destroy()

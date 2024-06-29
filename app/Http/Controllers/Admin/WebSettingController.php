@@ -23,7 +23,6 @@ class WebSettingController extends Controller
             "id" => $setting ? $setting->id : '',
             "privacy_policy" => $setting ? $setting->privacy_policy : '',
             "term_and_condition" => $setting ? $setting->term_and_condition : '',
-            "app_name_ar" => $setting ? $setting->app_name_ar : '',
             "app_name_en" => $setting ? $setting->app_name_en : '',
             "address" => $setting ? $setting->address : '',
             "phone" => $setting ? $setting->phone : '',
@@ -48,7 +47,6 @@ class WebSettingController extends Controller
     {
         // Validator request
         $v = Validator::make($request->all(), [
-            "app_name_ar" => "required",
             "app_name_en" => "required",
             "address" => "required",
             "email" => "required",
@@ -85,13 +83,21 @@ class WebSettingController extends Controller
                 $input["review_image"] = request()->file("review_image")->store("");
                 Storage::delete($setting->review_image);
             }
-            
+
             $setting->update($input);
         } else {
             $input["black_logo"] = request()->file("black_logo")->store("");
             $input["white_logo"] = request()->file("white_logo")->store("");
             $input["review_image"] = request()->file("review_image")->store("");
-            WebSetting::create($input);
+            $setting = WebSetting::create($input);
         }
+        insertDictionary([
+            ['key' => "app_name_en", "value" => request()->app_name_en, "class" => "WebSetting", "model_id" => $setting->id],
+            ['key' => "address", "value" => request()->address, "class" => "WebSetting", "model_id" => $setting->id],
+            ['key' => "contact_title", "value" => request()->contact_title, "class" => "WebSetting", "model_id" => $setting->id],
+            ['key' => "contact_content", "value" => request()->contact_content, "class" => "WebSetting", "model_id" => $setting->id],
+            ['key' => "privacy_policy", "value" => request()->privacy_policy, "class" => "WebSetting", "model_id" => $setting->id],
+            ['key' => "term_and_condition", "value" => request()->term_and_condition, "class" => "WebSetting", "model_id" => $setting->id],
+        ]);
     }
 }

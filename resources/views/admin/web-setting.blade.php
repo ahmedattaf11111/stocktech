@@ -111,11 +111,7 @@
 									<!-- 1. Delivery Address -->
 									<h5 class="mb-4 mt-4">1. {{__('general.Basic information')}}</h5>
 									<div class="row g-3">
-										<div class="col-sm-6">
-											<label class="form-label" for="fullname">{{__('general.app_name_ar')}}</label>
-											<input name="app_name_ar" type="text" id="app_name_ar" v-model="app_name_ar" class="form-control" placeholder="{{__('general.app_name_ar')}}" />
-										</div>
-										<div class="col-sm-6">
+										<div class="col-sm-12">
 											<label class="form-label" for="fullname">{{__('general.app_name_en')}}</label>
 											<input name="app_name_en" type="text" id="app_name_en" v-model="app_name_en" class="form-control" placeholder="{{__('general.app_name_en')}}" />
 										</div>
@@ -306,21 +302,20 @@
 		components: {},
 		mounted: () => {
 			setTimeout(() => {
-				termAndConditionEditor.root.innerHTML = @json($term_and_condition);
-				privacyPolicyEditor.root.innerHTML = @json($privacy_policy);
+				termAndConditionEditor.root.innerHTML = "{!!translate($dictionaries, 'term_and_condition',$term_and_condition,'WebSetting', $id)!!}";
+				privacyPolicyEditor.root.innerHTML = "{!!translate($dictionaries, 'privacy_policy',$privacy_policy,'WebSetting', $id)!!}";
 			}, 100)
 		},
 		data: {
 			loading: false,
 			id: @json($id),
-			app_name_ar: @json($app_name_ar),
-			app_name_en: @json($app_name_en),
-			address: @json($address),
+			app_name_en: "{{translate($dictionaries, 'app_name_en',$app_name_en,'WebSetting', $id)}}",
+			address: "{{translate($dictionaries, 'address',$address,'WebSetting', $id)}}",
 			email: @json($email),
-			contact_title: @json($contact_title),
-			contact_content: @json($contact_content),
-			term_and_condition: @json($term_and_condition),
-			privacy_policy: @json($privacy_policy),
+			contact_title: "{{translate($dictionaries, 'contact_title',$contact_title,'WebSetting', $id)}}",
+			contact_content:"{{translate($dictionaries, 'contact_content',$contact_content,'WebSetting', $id)}}",
+			term_and_condition: "{{translate($dictionaries, 'term_and_condition',$term_and_condition,'WebSetting', $id)}}",
+			privacy_policy: "{{translate($dictionaries, 'privacy_policy',$privacy_policy,'WebSetting', $id)}}",
 			phone: @json($phone),
 			black_logo: @json($black_logo),
 			review_image: @json($review_image),
@@ -357,7 +352,6 @@
 							toastAnimation.show();
 							return;
 						}
-						formData.append('app_name_ar', this.app_name_ar);
 						formData.append("term_and_condition", termAndConditionEditor.root.innerHTML);
 						formData.append("privacy_policy", privacyPolicyEditor.root.innerHTML);
 						formData.append('contact_title', this.contact_title);
@@ -439,14 +433,6 @@
 					}
 				}
 			},
-			app_name_ar: {
-				validators: {
-					notEmpty: {
-						message: @json(__('general.the field is required'))
-					}
-				}
-			},
-
 			app_name_en: {
 				validators: {
 					notEmpty: {

@@ -19,11 +19,11 @@
 						<div class="img-hiden">
 							<img src="assets/imgs/works/stand/1.jpg" alt="">
 						</div>
-						<span class="sub-title mb-15 main-color">{{$index+1}}. {{$project->category->name}}</span>
-						<h2 class="mb-15">{{$project->name}}</h2>
+						<span class="sub-title mb-15 main-color">{{$index+1}}. {{translate($dictionaries, 'name',$project->category->name, 'ProjectCategory', $project->category->id)}}</span>
+						<h2 class="mb-15">{{translate($dictionaries, 'name',$project->name, 'Project', $project->id)}}</h2>
 						<div class="row">
 							<div class="col-md-9">
-								<p>{{$project->description}}</p>
+								<p>{{translate($dictionaries, 'description',$project->description, 'Project', $project->id)}}</p>
 								<div class="vew-all mt-50">
 									<a href="/web/project-details/{{$project->id}}" class="sub-title">
 										{{__('general.Explore More')}}

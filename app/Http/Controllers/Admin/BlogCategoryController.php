@@ -37,25 +37,29 @@ class BlogCategoryController extends Controller
         // Validator request
         $v = Validator::make($request->all(), [
             'name' => "required",
-            'name_ar' => "required",
         ]);
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
-        BlogCategory::create($v->validated());
+        $cat = BlogCategory::create($v->validated());
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "BlogCategory", "model_id" => $cat->id]
+        ]);
     }
     public function update(Request $request, $id)
     {
         // Validator request
         $v = Validator::make($request->all(), [
             'name' => "required",
-            'name_ar' => "required",
         ]);
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
         $item = BlogCategory::find($id);
         $item->update($v->validated());
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "BlogCategory", "model_id" => $item->id]
+        ]);
     }
 
     public function destroy()

@@ -12,11 +12,13 @@
 						<div class="caption">
 							<div class="sub-title fz-12">
 								@foreach($blog->blogCategories as $index=>$category)
-								<a href="#0"><span>{{$category->name_trans}} @if($index+1!=$blog->blogCategories->count()),@endif </span></a>
+								<a href="#0"><span>
+										{{translate($dictionaries,'name',$category->name, 'BlogCategory', $category->id)}}
+										@if($index+1!=$blog->blogCategories->count()),@endif </span></a>
 								@endforeach
 							</div>
 							<h1 class="fz-55 mt-30">
-								{{$blog->name_trans}}
+								{{translate($dictionaries,'name',$blog->name, 'Blog', $blog->id)}}
 							</h1>
 						</div>
 						<div class="info d-flex mt-40 align-items-center">
@@ -29,7 +31,9 @@
 											</a>
 											<a href="#0" class="ml-20">
 												<span class="opacity-7">{{__('general.author')}}</span>
-												<h6 class="fz-16">{{$blog->author_name}}</h6>
+												<h6 class="fz-16">
+													{{translate($dictionaries,'author_name',$blog->author_name, 'Blog', $blog->id)}}
+												</h6>
 											</a>
 										</div>
 									</div>
@@ -71,17 +75,17 @@
 								<article>
 									<div class="text">
 										<p><span class="spec-letter">
-												{{$blog->content_trans[0]}}
+												{{translate($dictionaries,'content',$blog->content, 'Blog', $blog->id)[0]}}
 											</span>
-											{{substr($blog->content_trans, 1)}}
+											{{substr(translate($dictionaries,'content',$blog->content, 'Blog', $blog->id), 1)}}
 										</p>
 									</div>
 									<div class="title mt-30">
-										<h4>{{$blog->section_one_title}}</h4>
+										<h4>{{translate($dictionaries,'section_one_title',$blog->section_one_title, 'Blog', $blog->id)}}</h4>
 									</div>
 									<div class="text mt-20">
 										<p>
-											{{$blog->section_one_content}}
+											{{translate($dictionaries,'section_one_content',$blog->section_one_content, 'Blog', $blog->id)}}
 										</p>
 									</div>
 								</article>
@@ -89,9 +93,9 @@
 								<div class="post-qoute mt-50">
 									<h6 class="fz-20">
 										<span class="l-block">
-											{{$blog->author_note}}
+											{{translate($dictionaries,'author_note',$blog->author_note, 'Blog', $blog->id)}}
 										</span>
-										<span class="sub-title mt-20 mb-0"> - {{$blog->author_name}}</span>
+										<span class="sub-title mt-20 mb-0"> - {{translate($dictionaries,'author_name',$blog->author_name, 'Blog', $blog->id)}}</span>
 									</h6>
 								</div>
 
@@ -111,41 +115,45 @@
 								</div>
 
 								<div class="title mb-10">
-									<h4>{{$blog->section_tow_title}}</h4>
+									<h4>{{translate($dictionaries,'section_tow_title',$blog->section_tow_title, 'Blog', $blog->id)}}</h4>
 								</div>
 
 								<div class="text mb-20">
 									<p>
-										{{$blog->section_tow_content}}
+										{{translate($dictionaries,'section_tow_content',$blog->section_tow_content, 'Blog', $blog->id)}}
 									</p>
 								</div>
 
 								<div class="unorder-list mb-30">
-									<h6 class="mb-15">{{$blog->section_three_title}}</h6>
+									<h6 class="mb-15">
+										{{translate($dictionaries,'section_three_title',$blog->section_three_title, 'Blog', $blog->id)}}
+									</h6>
 									<ul class="rest">
-										<li>{{$blog->section_three_point_one}}</li>
-										<li>{{$blog->section_three_point_tow}}</li>
+										<li>{{translate($dictionaries,'section_three_point_one',$blog->section_three_point_one, 'Blog', $blog->id)}}</li>
+										<li>{{translate($dictionaries,'section_three_point_tow',$blog->section_three_point_tow, 'Blog', $blog->id)}}</li>
 										<li>
-											{{$blog->section_three_point_three}}
+											{{translate($dictionaries,'section_three_point_three',$blog->section_three_point_three, 'Blog', $blog->id)}}
 										</li>
 									</ul>
 								</div>
 
 								<div class="order-list mb-30">
-									<h6 class="mb-15">{{$blog->section_four_title}}</h6>
+									<h6 class="mb-15">
+										{{translate($dictionaries,'section_four_title',$blog->section_four_title, 'Blog', $blog->id)}}
+									</h6>
 									<ul class="rest">
-										<li><span>01 -</span> {{$blog->section_four_point_one}}
+										<li><span>01 -</span>{{translate($dictionaries,'section_four_point_one',$blog->section_four_point_one, 'Blog', $blog->id)}}
 										</li>
-										<li><span>02 -</span> {{$blog->section_four_point_tow}}
+										<li><span>02 -</span> {{translate($dictionaries,'section_four_point_tow',$blog->section_four_point_tow, 'Blog', $blog->id)}}
 										</li>
-										<li><span>03 -</span> {{$blog->section_four_point_three}}
+										<li><span>03 -</span> {{translate($dictionaries,'section_four_point_three',$blog->section_four_point_three, 'Blog', $blog->id)}}
 										</li>
 									</ul>
 								</div>
 
 								<div class="text">
 									<p>
-										{{$blog->section_four_content}}
+										{{translate($dictionaries,'section_four_content',$blog->section_four_content, 'Blog', $blog->id)}}
 									</p>
 								</div>
 							</div>
@@ -157,7 +165,9 @@
 										</div>
 										<div>
 											@foreach($blog->blogTags as $tag)
-											<a href="/web/blogs?page=1&page_size=6&tag_id={{$tag->id}}">{{$tag->name_trans}}</a>
+											<a href="/web/blogs?page=1&page_size=6&tag_id={{$tag->id}}">
+												{{translate($dictionaries,'name',$tag->name, 'BlogTag', $tag->id)}}
+											</a>
 											@endforeach
 										</div>
 									</div>
@@ -184,9 +194,11 @@
 									</div>
 									<div class="cont valign">
 										<div class="full-width">
-											<h6 class="fw-600 mb-10">{{$blog->author_name}}</h6>
+											<h6 class="fw-600 mb-10">
+												{{translate($dictionaries,'author_name',$blog->author_name, 'Blog', $blog->id)}}
+											</h6>
 											<p>
-												{{$blog->author_about}}
+												{{translate($dictionaries,'author_about',$blog->author_about, 'Blog', $blog->id)}}
 											</p>
 										</div>
 									</div>
@@ -238,7 +250,7 @@
 								<div class="search-box">
 									<input type="hidden" name="page" value="1">
 									<input type="hidden" name="page_size" value="6">
-									
+
 									<input type="text" name="text" placeholder="{{__('general.Search')}}">
 									<span class="icon pe-7s-search"></span>
 								</div>
@@ -249,7 +261,9 @@
 								<ul class="rest">
 									@foreach($categories as $category)
 									<li>
-										<span><a href="@if($category->blogs_count>0)/web/blogs?page=1&page_size=6&category_id={{$category->id}} @else javascript:; @endif">{{$category->name_trans}}</a></span>
+										<span><a href="@if($category->blogs_count>0)/web/blogs?page=1&page_size=6&category_id={{$category->id}} @else javascript:; @endif">
+												{{translate($dictionaries, 'name',$category->name, 'BlogCategory', $category->id)}}
+											</a></span>
 										<span class="ml-auto">{{$category->blogs_count}}</span>
 									</li>
 									@endforeach
@@ -274,7 +288,7 @@
 									</div>
 									<div class="cont">
 										<span class="tag"><a href="/web/blogs?page=1&page_size=6&category_id={{$blog->blogCategories[0]?$blog->blogCategories[0]->id:''}}">{{$blog->blogCategories[0]?$blog->blogCategories[0]->name_trans:''}}</a></span>
-										<h6><a href="/web/blog-details/{{$blog->id}}">{{$blog->name_trans}}</a></h6>
+										<h6><a href="/web/blog-details/{{$blog->id}}">{{translate($dictionaries, 'name',$blog->name, 'Blog', $blog->id)}}</a></h6>
 									</div>
 								</div>
 								@endforeach
@@ -283,7 +297,9 @@
 								<h6 class="title-widget">{{__('general.Tags')}}</h6>
 								<div>
 									@foreach($tags as $tag)
-									<a href="@if($tag->blogs_count > 0) /web/blogs?page=1&page_size=6&tag_id={{$tag->id}} @else javascript:; @endif">{{$tag->name_trans}}</a>
+									<a href="@if($tag->blogs_count > 0) /web/blogs?page=1&page_size=6&tag_id={{$tag->id}} @else javascript:; @endif">
+										{{translate($dictionaries, 'name',$tag->name, 'Tag', $tag->id)}}
+									</a>
 									@endforeach
 								</div>
 							</div>
@@ -327,7 +343,9 @@
 											</div>
 										</div>
 										<div class="ml-15 fz-14">
-											<div><span class="opacity-7">{{__('general.Posted by')}}</span><br>{{$blog->author_name}}</div>
+											<div><span class="opacity-7">{{__('general.Posted by')}}</span><br>
+												{{translate($dictionaries, 'author_name',$blog->author_name, 'Blog', $blog->id)}}
+											</div>
 										</div>
 									</div>
 								</div>
@@ -335,12 +353,14 @@
 									<div class="full-width">
 										<div class="tags mb-15">
 											@foreach($blog->blogCategories as $category)
-											<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">{{$category->name_trans}}</a>
+											<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">
+												{{translate($dictionaries, 'name',$category->name, 'BlogCategory', $category->id)}}
+											</a>
 											@endforeach
 										</div>
 										<h5>
 											<a href="/web/blog-details/{{$blog->id}}">
-												{{$blog->name_trans}}
+												{{translate($dictionaries, 'name',$blog->name, 'Blog', $blog->id)}}
 											</a>
 										</h5>
 										<span class="date fz-12 ls1 text-u opacity-7 mt-80">

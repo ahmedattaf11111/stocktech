@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Dictionary;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -19,7 +21,9 @@ Route::get("set-locale/{locale}", function ($locale) {
     Session::put("lang", $locale);
     return Redirect::back();
 });
-
+Route::get("dictionaries", function () {
+    return Dictionary::get();
+});
 Route::prefix("admin")->namespace("Admin")->name("admin.")->group(function () {
     Route::prefix("teams")->name("team.")->middleware("auth")
         ->group(function () {
@@ -92,6 +96,15 @@ Route::prefix("admin")->namespace("Admin")->name("admin.")->group(function () {
             Route::get("data", "BlogCategoryController@indexData")->name('data');
             Route::post("", "BlogCategoryController@store");
             Route::post("{id}", "BlogCategoryController@update");
+        });
+
+    Route::prefix("langs")->name("lang.")->middleware("auth")
+        ->group(function () {
+            Route::get("", "LangController@index");
+            Route::post("multi-delete", "LangController@destroy");
+            Route::get("data", "LangController@indexData")->name('data');
+            Route::post("", "LangController@store");
+            Route::post("{id}", "LangController@update");
         });
 
 
@@ -217,4 +230,7 @@ Route::prefix("web")->namespace("Web")->name("web.")->group(function () {
     Route::post("register", "AuthController@register")->name("register");
     Route::post("login", "AuthController@login")->name("login");
     Route::get("logout", "AuthController@logout")->name("logout");
+});
+Route::get("", function () {
+    return redirect()->route('web.home');
 });

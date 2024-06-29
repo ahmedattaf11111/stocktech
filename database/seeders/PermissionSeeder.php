@@ -146,6 +146,16 @@ class PermissionSeeder extends Seeder
                 ["name" => "view project-category", "guard_name" => "admin"],
             ]
         );
+
+        Permission::insert(
+            [
+                ["name" => "create lang", "guard_name" => "admin"],
+                ["name" => "update lang", "guard_name" => "admin"],
+                ["name" => "delete lang", "guard_name" => "admin"],
+                ["name" => "view lang", "guard_name" => "admin"],
+            ]
+        );
+
         
         Permission::insert(
             [

@@ -144,7 +144,7 @@
 							<div class="select2-primary">
 								<select id="categorySelect2Primary" name="career_team_id" id="categorySelect2Primary" class="select2 form-select">
 									<option :selected="career_team_id==team.id" v-for="team in teams" :value="team.id">
-										@{{team.name}}
+										@{{translate("name", team.name, "Team", team.id)}}
 									</option>
 								</select>
 							</div>
@@ -168,7 +168,7 @@
 							<div class="select2-primary">
 								<select id="categorySelect4Primary" name="career_type_id" class="select2 form-select">
 									<option :selected="career_type_id==type.id" v-for="type in types" :value="type.id">
-										@{{type.name}}
+										@{{translate("name", type.name, "CareerType", type.id)}}
 									</option>
 								</select>
 							</div>
@@ -293,17 +293,17 @@
 												<img class="table-image" :src="`/uploads/${item.images[0]}`" />
 											</a>
 											<div class="info">
-												<div class="text-body text-wrap fw-medium">@{{item.name}}</div>
+												<div class="text-body text-wrap fw-medium">@{{translate("name", item.name, "Career", item.id)}}</div>
 											</div>
 										</div>
 									</td>
-									<td>@{{item.name}}</td>
+									<td>@{{translate("name", item.name, "Career", item.id)}}</td>
 									<td>
 										<div class="d-flex align-items-center">
 											<a data-bs-target="#add-new-record" data-bs-toggle='offcanvas' @click="show(item)" href="javascript:;" class="text-body">
 												<i class="ti ti-{{auth()->user()->can('super admin')||auth()->user()->can('update career')?'edit':'eye'}} ti-sm me-2"></i>
 											</a>
-											
+
 											@if(auth()->user()->can('super admin')||auth()->user()->can('delete career'))
 											<a @click="onDeleteClicked([item.id])" href="javascript:;" class="text-body delete-record"><i class="ti ti-trash ti-sm mx-2"></i></a>
 											@endif
@@ -453,6 +453,8 @@
 
 		},
 		data: {
+			dictionaries: @json($dictionaries),
+			lang: @json(app() -> getLocale()),
 			ids: [],
 			loading: false,
 			text: "",
@@ -474,6 +476,26 @@
 		},
 
 		methods: {
+			translate(key, def, className = null, model_id = null) {
+				let dic = null;
+				if (className) {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key && elm.class == className && elm.model_id == model_id;
+					});
+				} else {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key;
+					});
+				}
+				return dic.length ? dic[0].value : def;
+			},
+
+			getDictionaries() {
+				axios.get(`${baseUrl}/dictionaries`).then(res => {
+					this.dictionaries = res.data;
+				})
+			},
+
 			onManageImageOpen() {
 				$(".canvase-close").click();
 			},
@@ -576,20 +598,24 @@
 						toastAnimationExample.querySelector('.ti').classList.add("text-primary");
 						toastAnimation = new bootstrap.Toast(toastAnimationExample);
 						toastAnimation.show();
+						if (action == "create" || action == "update") {
+							this.getDictionaries();
+						}
+
 					}
 				})
 			},
 			show(item) {
 				fv.resetForm();
-				this.item = item;
 				this.id = item.id;
-				this.name = item.name;
+				this.item = item;
+				this.name = this.translate("name", item.name, "Career", this.id);
 				this.career_type_id = item.career_type_id;
 				this.career_team_id = item.career_team_id;
 				this.location_id = item.location_id;
-				fullEditor.root.innerHTML = item.requirment;
-				this.description = item.description;
-				this.requirment = item.requirment;
+				fullEditor.root.innerHTML = this.translate("requirment", item.requirment, "Career", this.id);
+				this.description = this.translate("description", item.description, "Career", this.id);
+				this.requirment = this.translate("requirment", item.requirment, "Career", this.id);
 				this.images = item.images;
 				setTimeout(() => {
 					initSelect2();

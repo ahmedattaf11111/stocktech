@@ -348,14 +348,14 @@
 												<img class="table-image" :src="`/uploads/${item.image}`" />
 											</a>
 											<div class="info">
-												<div class="text-body text-wrap fw-medium">@{{item.name}}</div>
-												<div class="text-muted text-truncate mb-0 d-none d-sm-block job">@{{item.job}}</div>
+												<div class="text-body text-wrap fw-medium">@{{translate("name", item.name, "Team", item.id)}}</div>
+												<div class="text-muted text-truncate mb-0 d-none d-sm-block job">@{{translate("job", item.name, "Team", item.id)}}</div>
 											</div>
 
 										</div>
 									</td>
-									<td>@{{item.name}}</td>
-									<td>@{{item.job}}</td>
+									<td>@{{translate("name", item.name, "Team", item.id)}}</td>
+									<td>@{{translate("job", item.name, "Team", item.id)}}</td>
 									<td>
 										<div class="d-flex align-items-center">
 											<a data-bs-target="#add-new-record" data-bs-toggle='offcanvas' @click="show(item)" href="javascript:;" class="text-body">
@@ -425,6 +425,8 @@
 		el: "#app",
 		components: {},
 		data: {
+			dictionaries: @json($dictionaries),
+			lang: @json(app() -> getLocale()),
 			ids: [],
 			loading: false,
 			text: "",
@@ -455,6 +457,25 @@
 			experience_four_duration: "",
 		},
 		methods: {
+			translate(key, def, className = null, model_id = null) {
+				let dic = null;
+				if (className) {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key && elm.class == className && elm.model_id == model_id;
+					});
+				} else {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key;
+					});
+				}
+				return dic.length ? dic[0].value : def;
+			},
+			getDictionaries() {
+				axios.get(`${baseUrl}/dictionaries`).then(res => {
+					this.dictionaries = res.data;
+				})
+			},
+
 			setAllIds() {
 				if (this.ids.length == this.items.data.length) {
 					this.ids = [];
@@ -533,38 +554,42 @@
 						toastAnimationExample.querySelector('.ti').classList.add("text-primary");
 						toastAnimation = new bootstrap.Toast(toastAnimationExample);
 						toastAnimation.show();
+						if (action == "create" || action == "update") {
+							this.getDictionaries();
+						}
+
 					}
 				})
 			},
 			show(item) {
 				fv.resetForm();
-				this.name = item.name;
-				this.job = item.job;
 				this.id = item.id;
-				this.first_link = item.first_link;
-				this.second_link = item.second_link;
-				this.third_link = item.third_link;
+				this.name = this.translate("name", item.name, "Team", this.id);
+				this.job = this.translate("job", item.job, "Team", this.id);
+				this.first_link = this.translate("first_link", item.first_link, "Team", this.id);
+				this.second_link = this.translate("second_link", item.second_link, "Team", this.id);
+				this.third_link = this.translate("third_link", item.third_link, "Team", this.id);
 
-				this.skill_one = item.skill_one;
-				this.skill_one_rate = item.skill_one_rate;
-				this.skill_tow = item.skill_tow;
-				this.skill_tow_rate = item.skill_tow_rate;
-				this.skill_three = item.skill_three;
-				this.skill_three_rate = item.skill_three_rate;
+				this.skill_one = this.translate("skill_one", item.skill_one, "Team", this.id);
+				this.skill_one_rate = this.translate("skill_one_rate", item.skill_one_rate, "Team", this.id);
+				this.skill_tow = this.translate("skill_tow", item.skill_tow, "Team", this.id);
+				this.skill_tow_rate = this.translate("skill_tow_rate", item.skill_tow_rate, "Team", this.id);
+				this.skill_three = this.translate("skill_three", item.skill_three, "Team", this.id);
+				this.skill_three_rate = this.translate("skill_three_rate", item.skill_three_rate, "Team", this.id);
 
-				this.experience_one = item.experience_one;
-				this.experience_one_duration = item.experience_one_duration;
-				this.experience_tow = item.experience_tow;
-				this.experience_tow_duration = item.experience_tow_duration;
-				this.experience_three = item.experience_three;
-				this.experience_three_duration = item.experience_three_duration;
-				this.experience_four = item.experience_four;
-				this.experience_four_duration = item.experience_four_duration;
+				this.experience_one = this.translate("experience_one", item.experience_one, "Team", this.id);
+				this.experience_one_duration = this.translate("experience_one_duration", item.experience_one_duration, "Team", this.id);
+				this.experience_tow = this.translate("experience_tow", item.experience_tow, "Team", this.id);
+				this.experience_tow_duration = this.translate("experience_tow_duration", item.experience_tow_duration, "Team", this.id);
+				this.experience_three = this.translate("experience_three", item.experience_three, "Team", this.id);
+				this.experience_three_duration = this.translate("experience_three_duration", item.experience_three_duration, "Team", this.id);
+				this.experience_four = this.translate("experience_four", item.experience_four, "Team", this.id);
+				this.experience_four_duration = this.translate("experience_four_duration", item.experience_four_duration, "Team", this.id);
 
-				fullEditor.root.innerHTML = item.about;
+				fullEditor.root.innerHTML = this.translate("about", item.about, "Team", this.id);
 
-				skillContentFullEditor.root.innerHTML = item.skill_content;
-				experienceContentFullEditor.root.innerHTML = item.experience_content;
+				skillContentFullEditor.root.innerHTML = this.translate("skill_content", item.skill_content, "Team", this.id);
+				experienceContentFullEditor.root.innerHTML = this.translate("experience_content", item.experience_content, "Team", this.id);
 
 				uploadedFiles = [];
 			},

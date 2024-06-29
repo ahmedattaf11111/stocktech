@@ -257,11 +257,11 @@
 												<img class="table-image" :src="`/uploads/${item.images[0]}`" />
 											</a>
 											<div class="info">
-												<div class="text-body text-wrap fw-medium">@{{item.name}}</div>
+												<div class="text-body text-wrap fw-medium">@{{translate('name',item.name,'Service',item.id)}}</div>
 											</div>
 										</div>
 									</td>
-									<td>@{{item.name}}</td>
+									<td>@{{translate('name',item.name,'Service',item.id)}}</td>
 									<td>
 										<div class="d-flex align-items-center">
 											<a data-bs-target="#add-new-record" data-bs-toggle='offcanvas' @click="show(item)" href="javascript:;" class="text-body">
@@ -334,6 +334,8 @@
 		data: {
 			ids: [],
 			loading: false,
+			dictionaries: @json($dictionaries),
+			lang: @json(app() -> getLocale()),
 			text: "",
 			page: 1,
 			page_size: 10,
@@ -354,6 +356,20 @@
 		},
 
 		methods: {
+			translate(key, def, className = null, model_id = null) {
+				let dic = null;
+				if (className) {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key && elm.class == className && elm.model_id == model_id;
+					});
+				} else {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key;
+					});
+				}
+				return dic.length ? dic[0].value : def;
+			},
+
 			onManageImageOpen() {
 				$(".canvase-close").click();
 			},
@@ -456,23 +472,30 @@
 						toastAnimationExample.querySelector('.ti').classList.add("text-primary");
 						toastAnimation = new bootstrap.Toast(toastAnimationExample);
 						toastAnimation.show();
+						if(action=="create" ||action=="update"){
+							this.getDictionaries();
+						}
 					}
+				})
+			},
+			getDictionaries() {
+				axios.get(`${baseUrl}/dictionaries`).then(res => {
+					this.dictionaries = res.data;
 				})
 			},
 			show(item) {
 				fv.resetForm();
 				this.item = item;
-				this.name = item.name;
-				this.description = item.description;
 				this.id = item.id;
-				this.description = item.description;
-				this.detail_content = item.detail_content;
-				this.detail_point_one = item.detail_point_one;
-				this.detail_point_tow = item.detail_point_tow;
-				this.detail_point_three = item.detail_point_three;
-				this.detail_point_four = item.detail_point_four;
-				this.detail_point_five = item.detail_point_five;
-				this.detail_point_six = item.detail_point_six;
+				this.name = this.translate("name",item.name, "Service", this.id);
+				this.description = this.translate("description",item.description, "Service", this.id);
+				this.detail_content = this.translate("detail_content",item.detail_content, "Service", this.id);
+				this.detail_point_one = this.translate("detail_point_one",item.detail_point_one,"Service", this.id);
+				this.detail_point_tow = this.translate("detail_point_tow",item.detail_point_tow,"Service", this.id);
+				this.detail_point_three = this.translate("detail_point_three",item.detail_point_three,"Service", this.id);
+				this.detail_point_four = this.translate("detail_point_four",item.detail_point_four,"Service", this.id);
+				this.detail_point_five = this.translate("detail_point_five",item.detail_point_five,"Service", this.id);
+				this.detail_point_six = this.translate("detail_point_six",item.detail_point_six,"Service", this.id);
 				this.images = item.images;
 				uploadedFiles = [];
 			},

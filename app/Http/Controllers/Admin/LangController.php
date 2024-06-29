@@ -3,29 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\CareerTeam;
+use App\Models\Lang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CareerTeamController extends Controller
+class LangController extends Controller
 {
     public function __construct()
     {
-        $this->middleware("permission:super admin|create career-team")->only(["store"]);
-        $this->middleware("permission:super admin|update career-team")->only("update");
-        $this->middleware("permission:super admin|view career-team")->only(["index", "indexData"]);
-        $this->middleware("permission:super admin|delete career-team")->only("destroy");
+        $this->middleware("permission:super admin|create lang")->only(["store"]);
+        $this->middleware("permission:super admin|update lang")->only("update");
+        $this->middleware("permission:super admin|view lang")->only(["index", "indexData"]);
+        $this->middleware("permission:super admin|delete lang")->only("destroy");
     }
 
     public function index()
     {
-        $items = CareerTeam::latest()->paginate(request()->page_size);
-        return view('admin.career-team', ["items" => $items]);
+        $items = Lang::latest()->paginate(request()->page_size);
+        return view('admin.lang', ["items" => $items]);
     }
 
     public function indexData()
     {
-        return CareerTeam::when(request()->text, function ($q) {
+        return Lang::when(request()->text, function ($q) {
             $q->where("name", "like", "%" . request()->text . "%");
         })->latest()->paginate(request()->page_size);
     }
@@ -35,35 +35,33 @@ class CareerTeamController extends Controller
         // Validator request
         $v = Validator::make($request->all(), [
             'name' => "required",
+            'is_rtl' => "required",
+            'key' => "required",
         ]);
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
-        $item = CareerTeam::create($v->validated());
-        insertDictionary([
-            ['key' => "name", "value" => request()->name, "class" => "CareerTeam", "model_id" => $item->id]
-        ]);
+        Lang::create($v->validated());
     }
     public function update(Request $request, $id)
     {
         // Validator request
         $v = Validator::make($request->all(), [
             'name' => "required",
+            'is_rtl' => "required",
+            'key' => "required",
         ]);
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
-        $item = CareerTeam::find($id);
+        $item = Lang::find($id);
         $item->update($v->validated());
-        insertDictionary([
-            ['key' => "name", "value" => request()->name, "class" => "CareerTeam", "model_id" => $item->id]
-        ]);
     }
 
     public function destroy()
     {
         foreach (request()->ids as $id) {
-            $team = CareerTeam::find($id);
+            $team = Lang::find($id);
             $team->delete();
         }
     }

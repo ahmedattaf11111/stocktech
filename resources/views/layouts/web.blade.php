@@ -15,7 +15,7 @@
   <meta name="author" content="">
 
   <!-- Title  -->
-  <title>{{$web_app_name}}</title>
+  <title>{{translate($dictionaries, 'app_name_en',$web_app_name_en, 'WebSetting', $web_setting_id)}}</title>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="/web/assets/imgs/favicon.ico">
@@ -171,7 +171,7 @@
   @stack('css')
 </head>
 
-<body dir="{{app()->getLocale()=='ar'?'rtl':'ltr'}}">
+<body dir="{{getDir($langs)}}">
 
   <div class="modal fade" id="termAndCondition" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
@@ -181,7 +181,8 @@
           <button  type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          {!! $web_term_and_condition !!}
+          {!!translate($dictionaries, 'term_and_condition',$web_term_and_condition,'WebSetting', $web_setting_id)!!}
+      
         </div>
       </div>
     </div>
@@ -354,7 +355,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          {!! $web_privacy_policy !!}
+          {!!translate($dictionaries, 'privacy_policy',$web_privacy_policy,'WebSetting', $web_setting_id)!!}
         </div>
       </div>
     </div>
@@ -598,9 +599,9 @@
               </span>
             </a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="/set-locale/en">{{__('general.English')}}</a>
-
-              <a class="dropdown-item" href="/set-locale/ar">{{__('general.Arabic')}}</a>
+              @foreach($langs as $lang)
+              <a class="dropdown-item" href="/set-locale/{{$lang->key}}">{{$lang->name}}</a>            
+              @endforeach
             </div>
           </li>
         </ul>
@@ -712,7 +713,7 @@
           <div class="cont-info">
             <div class="item mb-50">
               <h6 class="sub-title mb-15 opacity-7">{{__('general.Address')}}</h6>
-              <h5>{{$web_address}}</h5>
+              <h5>{{translate($dictionaries, 'address',$web_address, 'WebSetting', $web_setting_id)}}</h5>
             </div>
             <div class="item mb-50">
               <h6 class="sub-title mb-15 opacity-7">{{__('general.Social Media')}}</h6>

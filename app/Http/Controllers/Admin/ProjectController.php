@@ -59,7 +59,17 @@ class ProjectController extends Controller
             $images[] = $file->store("");
         }
         $input["images"] = $images;
-        Project::create($input);
+        $project = Project::create($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Project", "model_id" => $project->id],
+            ['key' => "client", "value" => request()->client, "class" => "Project", "model_id" => $project->id],
+            ['key' => "designer", "value" => request()->designer, "class" => "Project", "model_id" => $project->id],
+            ['key' => "description", "value" => request()->description, "class" => "Project", "model_id" => $project->id],
+            ['key' => "section_one_title", "value" => request()->section_one_title, "class" => "Project", "model_id" => $project->id],
+            ['key' => "section_one_content", "value" => request()->section_one_content, "class" => "Project", "model_id" => $project->id],
+            ['key' => "section_tow_title", "value" => request()->section_tow_title, "class" => "Project", "model_id" => $project->id],
+            ['key' => "section_tow_content", "value" => request()->section_tow_content, "class" => "Project", "model_id" => $project->id],
+        ]);
     }
     public function update(Request $request, $id)
     {
@@ -93,6 +103,16 @@ class ProjectController extends Controller
             $input["images"] = $images;
         }
         $item->update($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Project", "model_id" => $item->id],
+            ['key' => "client", "value" => request()->client, "class" => "Project", "model_id" => $item->id],
+            ['key' => "designer", "value" => request()->designer, "class" => "Project", "model_id" => $item->id],
+            ['key' => "description", "value" => request()->description, "class" => "Project", "model_id" => $item->id],
+            ['key' => "section_one_title", "value" => request()->section_one_title, "class" => "Project", "model_id" => $item->id],
+            ['key' => "section_one_content", "value" => request()->section_one_content, "class" => "Project", "model_id" => $item->id],
+            ['key' => "section_tow_title", "value" => request()->section_tow_title, "class" => "Project", "model_id" => $item->id],
+            ['key' => "section_tow_content", "value" => request()->section_tow_content, "class" => "Project", "model_id" => $item->id],
+        ]);
     }
 
     public function destroy()

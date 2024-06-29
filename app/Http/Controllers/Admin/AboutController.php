@@ -70,14 +70,26 @@ class AboutController extends Controller
                 $images[] = $file->store("");
             }
             $input["images"] = $images;
-            About::create($input);
+            $about=About::create($input);
         }
+        insertDictionary([
+            ['key' => "service_title", "value" => request()->service_title, "class" => "About", "model_id" => $about->id],
+            ['key' => "service_content", "value" => request()->service_content, "class" => "About", "model_id" => $about->id],
+            ['key' => "experience_one", "value" => request()->experience_one, "class" => "About", "model_id" => $about->id],
+            ['key' => "experience_one_rate", "value" => request()->experience_one_rate, "class" => "About", "model_id" => $about->id],
+            ['key' => "experience_tow", "value" => request()->experience_tow, "class" => "About", "model_id" => $about->id],
+            ['key' => "experience_tow_rate", "value" => request()->experience_tow_rate, "class" => "About", "model_id" => $about->id],
+            ['key' => "experience_main_content", "value" => request()->experience_main_content, "class" => "About", "model_id" => $about->id],
+            ['key' => "experience_second_content", "value" => request()->experience_second_content, "class" => "About", "model_id" => $about->id],
+            ['key' => "experience_number", "value" => request()->experience_number, "class" => "About", "model_id" => $about->id],
+            ['key' => "experience_number_text", "value" => request()->experience_number_text, "class" => "About", "model_id" => $about->id],
+        ]);
         return $input["images"] ?? [];
     }
     public function deleteImage($image)
     {
         $about = About::first();
-        $about->images = collect($about->images)->filter(function ($_image) use($image) {
+        $about->images = collect($about->images)->filter(function ($_image) use ($image) {
             return $image != $_image;
         })->toArray();
         Storage::delete($image);

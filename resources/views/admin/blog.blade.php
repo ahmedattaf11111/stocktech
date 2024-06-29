@@ -92,252 +92,212 @@
 			<h5 class="offcanvas-title" id="exampleModalLabel">{{__('general.New Blog')}}</h5>
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
-		<div class="col-sm-12">
-
-		</div>
 		<div class="row offcanvas-body flex-grow-1">
-
 			<form style="padding-right: 0 !important;padding-left: 0 !important;" class="add-new-record" id="form-add-new-record" @submit.prevent="save">
-				<div class="nav-align-top mb-4">
-					<ul style="display: flex;justify-content:center" class="nav nav-pills mb-3" role="tablist">
-						<li class="nav-item">
-							<button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#english" aria-controls="navs-pills-top-home" aria-selected="true">
-								{{__('general.English')}}
-							</button>
-						</li>
-						<li class="nav-item">
-							<button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#arabic" aria-controls="navs-pills-top-profile" aria-selected="false">
-								{{__('general.Arabic')}}
-							</button>
-						</li>
-					</ul>
-					<div class="tab-content">
-						<div class="tab-pane fade show active" id="english" role="tabpanel">
-							<div class="card-cont">
-								<h6>{{__('general.Basic information')}}</h6>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label class="form-label" for="basicFullname">{{__('general.Name')}}</label>
-										<input v-model="name" type="text" id="name" class="form-control dt-full-name" name="name" placeholder="{{__('general.Name')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label for="categorySelect2Primary" class="form-label">{{__('general.Categories')}}</label>
-										<div>
-											<select id="categorySelect2Primary" name="categories_ids" id="categorySelect2Primary" class="select2 form-select" multiple="multiple">
-												<option :selected="categories_ids.includes(category.id)" v-for="category in categories" :value="category.id">
-													@{{category.name_trans}}
-												</option>
-											</select>
-										</div>
-									</div>
+				<div class="card-cont">
+					<h6>{{__('general.Basic information')}}</h6>
+					<div class="col-sm-12">
+						<div class="mb-2">
+							<label class="form-label" for="basicFullname">{{__('general.Name')}}</label>
+							<input v-model="name" type="text" id="name" class="form-control dt-full-name" name="name" placeholder="{{__('general.Name')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="mb-2">
+							<label for="categorySelect2Primary" class="form-label">{{__('general.Categories')}}</label>
+							<div>
+								<select id="categorySelect2Primary" name="categories_ids" id="categorySelect2Primary" class="select2 form-select" multiple="multiple">
+									<option :selected="categories_ids.includes(category.id)" v-for="category in categories" :value="category.id">
+										@{{translate("name", category.name, "BlogCategory", category.id)}}
+									</option>
+								</select>
+							</div>
+						</div>
 
-								</div>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label for="tagSelect2Primary" class="form-label">{{__('general.Tags')}}</label>
-										<div>
+					</div>
+					<div class="col-sm-12">
+						<div class="mb-2">
+							<label for="tagSelect2Primary" class="form-label">{{__('general.Tags')}}</label>
+							<div>
 
-											<select id="tagSelect2Primary" class="select2 tag-select2 form-select" multiple="multiple">
-												<option :selected="tags_ids.includes(tag.id)" v-for="tag in tags" :value="tag.id">
-													@{{tag.name_trans}}
-												</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.content')}}</label>
-									<textarea name="content" class="form-control" id="content" v-model="content" rows="5" placeholder="{{__('general.content')}}"></textarea>
-								</div>
+								<select id="tagSelect2Primary" class="select2 tag-select2 form-select" multiple="multiple">
+									<option :selected="tags_ids.includes(tag.id)" v-for="tag in tags" :value="tag.id">
+										@{{translate("name", tag.name, "BlogTag", tag.id)}}
+									</option>
+								</select>
 							</div>
-							<div class="card-cont mt-3">
-								<h6>{{__('general.image')}}</h6>
-								<div class="col-sm-12">
-									<div class="card-body">
-										<div action="/upload" class="dropzone needsclick" id="dropzone-basic">
-											<div class="dz-message needsclick">
-												{{__('general.Drop files here or click to upload')}}
-											</div>
-											<div class="fallback">
-												<input name="file" type="file" />
-											</div>
-										</div>
-									</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<label class="form-label" for="address">{{__('general.content')}}</label>
+						<textarea name="content" class="form-control" id="content" v-model="content" rows="5" placeholder="{{__('general.content')}}"></textarea>
+					</div>
+				</div>
+				<div class="card-cont mt-3">
+					<h6>{{__('general.image')}}</h6>
+					<div class="col-sm-12">
+						<div class="card-body">
+							<div action="/upload" class="dropzone needsclick" id="dropzone-basic">
+								<div class="dz-message needsclick">
+									{{__('general.Drop files here or click to upload')}}
 								</div>
-							</div>
-							<div class="card-cont mt-3">
-								<h6>{{__('general.First Section')}}</h6>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label class="form-label" for="basicFullname">{{__('general.Title')}}</label>
-										<input v-model="section_one_title" type="text" id="section_one_title" class="form-control dt-full-name" name="section_one_title" placeholder="{{__('general.Title')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.content')}}</label>
-									<textarea name="section_one_content" class="form-control" id="section_one_content" v-model="section_one_content" rows="5" placeholder="{{__('general.content')}}"></textarea>
-								</div>
-							</div>
-							<div class="card-cont mt-3">
-								<h6>{{__('general.Second Section')}}</h6>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label class="form-label" for="basicFullname">{{__('general.Title')}}</label>
-										<input v-model="section_tow_title" type="text" id="section_tow_title" class="form-control dt-full-name" name="section_tow_title" placeholder="{{__('general.Title')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.content')}}</label>
-									<textarea name="section_tow_content" class="form-control" id="section_tow_content" v-model="section_tow_content" rows="5" placeholder="{{__('general.content')}}"></textarea>
-								</div>
-							</div>
-							<div class="card-cont mt-3">
-								<h6>{{__('general.Third Section')}}</h6>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label class="form-label" for="basicFullname">{{__('general.Title')}}</label>
-										<input v-model="section_three_title" type="text" id="section_three_title" class="form-control dt-full-name" name="section_three_title" placeholder="{{__('general.Title')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-4">
-										<div class="mb-2">
-											<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
-											<input v-model="section_three_point_one" type="text" id="section_three_point_one" class="form-control dt-full-name" name="section_three_point_one" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="mb-2">
-											<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
-											<input v-model="section_three_point_tow" type="text" id="section_three_point_tow" class="form-control dt-full-name" name="section_three_point_tow" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="mb-2">
-											<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
-											<input v-model="section_three_point_three" type="text" id="section_three_point_three" class="form-control dt-full-name" name="section_three_point_three" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.content')}}</label>
-									<textarea name="section_three_content" class="form-control" id="section_three_content" v-model="section_three_content" rows="5" placeholder="{{__('general.content')}}"></textarea>
-								</div>
-							</div>
-							<div class="card-cont mt-3">
-								<h6>{{__('general.Fourth Section')}}</h6>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label class="form-label" for="basicFullname">{{__('general.Title')}}</label>
-										<input v-model="section_four_title" type="text" id="section_four_title" class="form-control dt-full-name" name="section_four_title" placeholder="{{__('general.Title')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-4">
-										<div class="mb-2">
-											<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
-											<input v-model="section_four_point_one" type="text" id="section_four_point_one" class="form-control dt-full-name" name="section_four_point_one" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="mb-2">
-											<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
-											<input v-model="section_four_point_tow" type="text" id="section_four_point_tow" class="form-control dt-full-name" name="section_four_point_tow" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="mb-2">
-											<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
-											<input v-model="section_four_point_three" type="text" id="section_four_point_three" class="form-control dt-full-name" name="section_four_point_three" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.content')}}</label>
-									<textarea name="section_four_content" class="form-control" id="section_four_content" v-model="section_four_content" rows="5" placeholder="{{__('general.content')}}"></textarea>
-								</div>
-							</div>
-
-
-							<div class="card-cont mt-3">
-								<h6>{{__('general.images')}}</h6>
-								<div class="col-sm-12">
-									<div class="card-body">
-										<div action="/upload" class="dropzone needsclick" id="first-dropzone-basic">
-											<div class="dz-message needsclick">
-												{{__('general.Drop files here or click to upload')}}
-											</div>
-											<div class="fallback">
-												<input name="file" type="file" />
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-12 mt-3">
-									<div class="card-body">
-										<div action="/upload" class="dropzone needsclick" id="second-dropzone-basic">
-											<div class="dz-message needsclick">
-												{{__('general.Drop files here or click to upload')}}
-											</div>
-											<div class="fallback">
-												<input name="file" type="file" />
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-cont mt-3">
-								<h6>{{__('general.author')}}</h6>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label class="form-label" for="basicFullname">{{__('general.Name')}}</label>
-										<input form="form-add-new-record" v-model="author_name" type="text" id="author_name" class="form-control dt-full-name" name="author_name" placeholder="{{__('general.Name')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-									</div>
-								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.about')}}</label>
-									<textarea name="author_about" class="form-control" id="author_about" v-model="author_about" rows="5" placeholder="{{__('general.content')}}"></textarea>
-								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.note')}}</label>
-									<textarea name="author_note" class="form-control" id="author_note" v-model="author_note" rows="5" placeholder="{{__('general.note')}}"></textarea>
-								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.image')}}</label>
-									<div class="card-body">
-										<div action="/upload" class="dropzone needsclick" id="author-dropzone-basic">
-											<div class="dz-message needsclick">
-												{{__('general.Drop files here or click to upload')}}
-											</div>
-											<div class="fallback">
-												<input name="file" type="file" />
-											</div>
-										</div>
-									</div>
+								<div class="fallback">
+									<input name="file" type="file" />
 								</div>
 							</div>
 						</div>
-						<div class="tab-pane fade" id="arabic" role="tabpanel">
-							<div class="card-cont">
-								<h6>{{__('general.Basic information')}}</h6>
-								<div class="col-sm-12">
-									<div class="mb-2">
-										<label class="form-label" for="basicFullname">{{__('general.Name')}}</label>
-										<input v-model="name_ar" type="text" id="name_ar" class="form-control dt-full-name" name="name_ar" placeholder="{{__('general.Name')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-									</div>
+					</div>
+				</div>
+				<div class="card-cont mt-3">
+					<h6>{{__('general.First Section')}}</h6>
+					<div class="col-sm-12">
+						<div class="mb-2">
+							<label class="form-label" for="basicFullname">{{__('general.Title')}}</label>
+							<input v-model="section_one_title" type="text" id="section_one_title" class="form-control dt-full-name" name="section_one_title" placeholder="{{__('general.Title')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<label class="form-label" for="address">{{__('general.content')}}</label>
+						<textarea name="section_one_content" class="form-control" id="section_one_content" v-model="section_one_content" rows="5" placeholder="{{__('general.content')}}"></textarea>
+					</div>
+				</div>
+				<div class="card-cont mt-3">
+					<h6>{{__('general.Second Section')}}</h6>
+					<div class="col-sm-12">
+						<div class="mb-2">
+							<label class="form-label" for="basicFullname">{{__('general.Title')}}</label>
+							<input v-model="section_tow_title" type="text" id="section_tow_title" class="form-control dt-full-name" name="section_tow_title" placeholder="{{__('general.Title')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<label class="form-label" for="address">{{__('general.content')}}</label>
+						<textarea name="section_tow_content" class="form-control" id="section_tow_content" v-model="section_tow_content" rows="5" placeholder="{{__('general.content')}}"></textarea>
+					</div>
+				</div>
+				<div class="card-cont mt-3">
+					<h6>{{__('general.Third Section')}}</h6>
+					<div class="col-sm-12">
+						<div class="mb-2">
+							<label class="form-label" for="basicFullname">{{__('general.Title')}}</label>
+							<input v-model="section_three_title" type="text" id="section_three_title" class="form-control dt-full-name" name="section_three_title" placeholder="{{__('general.Title')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="mb-2">
+								<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
+								<input v-model="section_three_point_one" type="text" id="section_three_point_one" class="form-control dt-full-name" name="section_three_point_one" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="mb-2">
+								<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
+								<input v-model="section_three_point_tow" type="text" id="section_three_point_tow" class="form-control dt-full-name" name="section_three_point_tow" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="mb-2">
+								<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
+								<input v-model="section_three_point_three" type="text" id="section_three_point_three" class="form-control dt-full-name" name="section_three_point_three" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<label class="form-label" for="address">{{__('general.content')}}</label>
+						<textarea name="section_three_content" class="form-control" id="section_three_content" v-model="section_three_content" rows="5" placeholder="{{__('general.content')}}"></textarea>
+					</div>
+				</div>
+				<div class="card-cont mt-3">
+					<h6>{{__('general.Fourth Section')}}</h6>
+					<div class="col-sm-12">
+						<div class="mb-2">
+							<label class="form-label" for="basicFullname">{{__('general.Title')}}</label>
+							<input v-model="section_four_title" type="text" id="section_four_title" class="form-control dt-full-name" name="section_four_title" placeholder="{{__('general.Title')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="mb-2">
+								<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
+								<input v-model="section_four_point_one" type="text" id="section_four_point_one" class="form-control dt-full-name" name="section_four_point_one" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="mb-2">
+								<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
+								<input v-model="section_four_point_tow" type="text" id="section_four_point_tow" class="form-control dt-full-name" name="section_four_point_tow" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="mb-2">
+								<label class="form-label" for="basicFullname">{{__('general.point')}}</label>
+								<input v-model="section_four_point_three" type="text" id="section_four_point_three" class="form-control dt-full-name" name="section_four_point_three" placeholder="{{__('general.point')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<label class="form-label" for="address">{{__('general.content')}}</label>
+						<textarea name="section_four_content" class="form-control" id="section_four_content" v-model="section_four_content" rows="5" placeholder="{{__('general.content')}}"></textarea>
+					</div>
+				</div>
+				<div class="card-cont mt-3">
+					<h6>{{__('general.images')}}</h6>
+					<div class="col-sm-12">
+						<div class="card-body">
+							<div action="/upload" class="dropzone needsclick" id="first-dropzone-basic">
+								<div class="dz-message needsclick">
+									{{__('general.Drop files here or click to upload')}}
 								</div>
-								<div class="col-sm-12">
-									<label class="form-label" for="address">{{__('general.content')}}</label>
-									<textarea name="content_ar" class="form-control" id="content_ar" v-model="content_ar" rows="5" placeholder="{{__('general.content')}}"></textarea>
+								<div class="fallback">
+									<input name="file" type="file" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 mt-3">
+						<div class="card-body">
+							<div action="/upload" class="dropzone needsclick" id="second-dropzone-basic">
+								<div class="dz-message needsclick">
+									{{__('general.Drop files here or click to upload')}}
+								</div>
+								<div class="fallback">
+									<input name="file" type="file" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-cont mt-3">
+					<h6>{{__('general.author')}}</h6>
+					<div class="col-sm-12">
+						<div class="mb-2">
+							<label class="form-label" for="basicFullname">{{__('general.Name')}}</label>
+							<input form="form-add-new-record" v-model="author_name" type="text" id="author_name" class="form-control dt-full-name" name="author_name" placeholder="{{__('general.Name')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<label class="form-label" for="address">{{__('general.about')}}</label>
+						<textarea name="author_about" class="form-control" id="author_about" v-model="author_about" rows="5" placeholder="{{__('general.content')}}"></textarea>
+					</div>
+					<div class="col-sm-12">
+						<label class="form-label" for="address">{{__('general.note')}}</label>
+						<textarea name="author_note" class="form-control" id="author_note" v-model="author_note" rows="5" placeholder="{{__('general.note')}}"></textarea>
+					</div>
+					<div class="col-sm-12">
+						<label class="form-label" for="address">{{__('general.image')}}</label>
+						<div class="card-body">
+							<div action="/upload" class="dropzone needsclick" id="author-dropzone-basic">
+								<div class="dz-message needsclick">
+									{{__('general.Drop files here or click to upload')}}
+								</div>
+								<div class="fallback">
+									<input name="file" type="file" />
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</form>
-
 			<div class="col-sm-12 mt-4 mb-2" style="padding-right: 0;padding-left:0">
 				@if(auth()->user()->can('super admin')||auth()->user()->can('update blog'))
 				<button form="form-add-new-record" :disabled="loading" type="submit" class="btn save me-sm-3 me-1">
@@ -436,22 +396,22 @@
 												<img class="table-image" :src="`/uploads/${item.image}`" />
 											</a>
 											<div class="info">
-												<div class="text-body text-wrap fw-medium">@{{item.name_trans}}</div>
+												<div class="text-body text-wrap fw-medium">@{{translate("name", item.name, "Blog", item.id)}}</div>
 											</div>
 										</div>
 									</td>
-									<td>@{{item.name_trans}}</td>
+									<td>@{{translate("name", item.name, "Blog", item.id)}}</td>
 									<td>
 										<div class="image">
 											<a target="_blank" :href="`/uploads/${item.author_image}`">
 												<img class="table-image" :src="`/uploads/${item.author_image}`" />
 											</a>
 											<div class="info">
-												<div class="text-body text-wrap fw-medium">@{{item.author_name}}</div>
+												<div class="text-body text-wrap fw-medium">@{{translate("author_name", item.author_name, "Blog", item.id)}}</div>
 											</div>
 										</div>
 									</td>
-									<td>@{{item.author_name}}</td>
+									<td>@{{translate("author_name", item.author_name, "Blog", item.id)}}</td>
 
 									<td>
 										<div class="d-flex align-items-center">
@@ -601,6 +561,9 @@
 
 		},
 		data: {
+			dictionaries: @json($dictionaries),
+			lang: @json(app() -> getLocale()),
+
 			ids: [],
 			loading: false,
 			text: "",
@@ -609,7 +572,6 @@
 			message: 'Hello Vue!',
 			items: @json($items),
 			name: "",
-			name_ar: "",
 			tags_ids: [],
 			author_name: "",
 			id: "",
@@ -619,7 +581,6 @@
 			section_one_title: "",
 			section_one_content: "",
 			content: "",
-			content_ar: "",
 
 			section_tow_title: "",
 			section_tow_content: "",
@@ -640,6 +601,27 @@
 
 		},
 		methods: {
+			translate(key, def, className = null, model_id = null) {
+				let dic = null;
+				if (className) {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key && elm.class == className && elm.model_id == model_id;
+					});
+				} else {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key;
+					});
+				}
+				return dic.length ? dic[0].value : def;
+			},
+
+			getDictionaries() {
+				axios.get(`${baseUrl}/dictionaries`).then(res => {
+					this.dictionaries = res.data;
+				})
+			},
+
+
 			setAllIds() {
 				if (this.ids.length == this.items.data.length) {
 					this.ids = [];
@@ -717,38 +699,40 @@
 						toastAnimationExample.querySelector('.ti').classList.add("text-primary");
 						toastAnimation = new bootstrap.Toast(toastAnimationExample);
 						toastAnimation.show();
+						if (action == "create" || action == "update") {
+							this.getDictionaries();
+						}
 					}
 				})
 			},
 			show(item) {
 				fv.resetForm();
-				this.name = item.name;
-				this.name_ar = item.name_ar;
-				this.content_ar = item.content_ar;
-				this.content = item.content;
-				this.author_name = item.author_name;
 				this.id = item.id;
-				this.author_note = item.author_note;
-				this.author_about = item.author_about;
+				this.name = this.translate("name", item.name, "Blog", this.id);
+				this.content = this.translate("content", item.content, "Blog", this.id);
+				this.author_name = this.translate("author_name", item.author_name, "Blog", this.id);
+
+				this.author_note = this.translate("author_note", item.author_note, "Blog", this.id);
+				this.author_about = this.translate("author_about", item.author_about, "Blog", this.id);
 				this.categories_ids = item.blog_categories.map(category => category.id);
 				this.tags_ids = item.blog_tags.map(tag => tag.id);
 
-				this.section_one_title = item.section_one_title;
-				this.section_one_content = item.section_one_content;
-				this.section_tow_title = item.section_tow_title;
-				this.section_tow_content = item.section_tow_content;
+				this.section_one_title = this.translate("section_one_title", item.section_one_title, "Blog", this.id);
+				this.section_one_content = this.translate("section_one_content", item.section_one_content, "Blog", this.id);
+				this.section_tow_title = this.translate("section_tow_title", item.section_tow_title, "Blog", this.id);
+				this.section_tow_content = this.translate("section_tow_content", item.section_tow_content, "Blog", this.id);
 
-				this.section_three_title = item.section_three_title;
-				this.section_three_content = item.section_three_content;
-				this.section_three_point_one = item.section_three_point_one;
-				this.section_three_point_tow = item.section_three_point_tow;
-				this.section_three_point_three = item.section_three_point_three;
+				this.section_three_title = this.translate("section_three_title", item.section_three_title, "Blog", this.id);
+				this.section_three_content = this.translate("section_three_content", item.section_three_content, "Blog", this.id);
+				this.section_three_point_one = this.translate("section_three_point_one", item.section_three_point_one, "Blog", this.id);
+				this.section_three_point_tow = this.translate("section_three_point_tow", item.section_three_point_tow, "Blog", this.id);
+				this.section_three_point_three = this.translate("section_three_point_three", item.section_three_point_three, "Blog", this.id);
 
-				this.section_four_title = item.section_four_title;
-				this.section_four_content = item.section_four_content;
-				this.section_four_point_one = item.section_four_point_one;
-				this.section_four_point_tow = item.section_four_point_tow;
-				this.section_four_point_three = item.section_four_point_three;
+				this.section_four_title = this.translate("section_four_title", item.section_four_title, "Blog", this.id);
+				this.section_four_content = this.translate("section_four_content", item.section_four_content, "Blog", this.id);
+				this.section_four_point_one = this.translate("section_four_point_one", item.section_four_point_one, "Blog", this.id);
+				this.section_four_point_tow = this.translate("section_four_point_tow", item.section_four_point_tow, "Blog", this.id);
+				this.section_four_point_three = this.translate("section_four_point_three", item.section_four_point_three, "Blog", this.id);
 
 				uploadedFiles = [];
 				setTimeout(() => {
@@ -758,9 +742,7 @@
 			onAddClicked() {
 				fv.resetForm();
 				this.name = "";
-				this.name_ar = "";
 				this.content = "";
-				this.content_ar = "";
 				this.author_name = "";
 				this.id = "";
 				this.section_one_title = "";
@@ -793,9 +775,7 @@
 					if (status != "Invalid") {
 						let formData = new FormData();
 						formData.append("name", this.name);
-						formData.append("name_ar", this.name_ar);
 						formData.append("content", this.content);
-						formData.append("content_ar", this.content_ar);
 						formData.append("author_name", this.author_name);
 						formData.append("section_one_title", this.section_one_title);
 						formData.append("section_one_content", this.section_one_content);
@@ -1055,21 +1035,6 @@
 						}
 					}
 				},
-				name_ar: {
-					validators: {
-						notEmpty: {
-							message: @json(__('general.the field is required'))
-						}
-					}
-				},
-				content_ar: {
-					validators: {
-						notEmpty: {
-							message: @json(__('general.the field is required'))
-						}
-					}
-				},
-
 				author_name: {
 					validators: {
 						notEmpty: {

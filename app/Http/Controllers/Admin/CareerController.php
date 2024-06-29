@@ -65,7 +65,12 @@ class CareerController extends Controller
             $images[] = $file->store("");
         }
         $input["images"] = $images;
-        Career::create($input);
+        $career = Career::create($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Career", "model_id" => $career->id],
+            ['key' => "requirment", "value" => request()->requirment, "class" => "Career", "model_id" => $career->id],
+            ['key' => "description", "value" => request()->description, "class" => "Career", "model_id" => $career->id],
+        ]);
     }
     public function update(Request $request, $id)
     {
@@ -96,6 +101,11 @@ class CareerController extends Controller
             $input["images"] = $images;
         }
         $item->update($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Career", "model_id" => $item->id],
+            ['key' => "requirment", "value" => request()->requirment, "class" => "Career", "model_id" => $item->id],
+            ['key' => "description", "value" => request()->description, "class" => "Career", "model_id" => $item->id],
+        ]);
     }
 
     public function destroy()

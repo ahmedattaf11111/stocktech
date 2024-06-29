@@ -18,10 +18,10 @@
 					</div>
 					<div class="col-lg-6 valign">
 						<div class="cont">
-							<h1>{{$team->name}}</h1>
-							<h6 class="text-u ls1 opacity-8">{{$team->job}}</h6>
+							<h1>{{translate($dictionaries, 'name',$team->name, 'Team', $team->id)}}</h1>
+							<h6 class="text-u ls1 opacity-8">{{translate($dictionaries, 'job',$team->job, 'Team', $team->id)}}</h6>
 							<div class="text main-bg">
-								{!! $team->about !!}
+								{!! translate($dictionaries, 'about',$team->about, 'Team', $team->id) !!}
 							</div>
 						</div>
 					</div>
@@ -56,24 +56,24 @@
 								</span>
 							</h3>
 							<p class="fz-13 mt-15">
-								{!! $team->skill_content !!}
+								{!! translate($dictionaries, 'skill_content',$team->skill_content, 'Team', $team->id)!!}
 							</p>
 							<div class="skill-item mt-50">
-								<h6 class="fz-16 mb-10">{{$team->skill_one}}</h6>
+								<h6 class="fz-16 mb-10">{{translate($dictionaries, 'skill_one',$team->skill_one, 'Team', $team->id)}}</h6>
 								<div class="skill-progress">
-									<div class="progres" data-value="{{$team->skill_one_rate}}%"></div>
+									<div class="progres" data-value="{{translate($dictionaries, 'skill_one_rate',$team->skill_one_rate, 'Team', $team->id)}}%"></div>
 								</div>
 							</div>
 							<div class="skill-item mt-30">
-								<h6 class="fz-16 mb-10">{{$team->skill_tow}}</h6>
+								<h6 class="fz-16 mb-10">{{translate($dictionaries, 'skill_tow',$team->skill_tow, 'Team', $team->id)}}</h6>
 								<div class="skill-progress">
-									<div class="progres" data-value="{{$team->skill_tow_rate}}%"></div>
+									<div class="progres" data-value="{{translate($dictionaries, 'skill_tow_rate',$team->skill_tow_rate, 'Team', $team->id)}}%"></div>
 								</div>
 							</div>
 							<div class="skill-item mt-30">
-								<h6 class="fz-16 mb-10">{{$team->skill_three}}</h6>
+								<h6 class="fz-16 mb-10">{{translate($dictionaries, 'skill_three',$team->skill_three, 'Team', $team->id)}}</h6>
 								<div class="skill-progress">
-									<div class="progres" data-value="{{$team->skill_three_rate}}%"></div>
+									<div class="progres" data-value="{{translate($dictionaries, 'skill_three_rate',$team->skill_three_rate, 'Team', $team->id)}}%"></div>
 								</div>
 							</div>
 						</div>
@@ -97,36 +97,36 @@
 								</span>
 							</h3>
 							<p class="fz-13 mt-15">
-								{!! $team->experience_content !!}
+								{!! translate($dictionaries, 'experience_content',$team->experience_content, 'Team', $team->id) !!}
 							</p>
 
 							<div class="box-items row mt-50">
 								<div class="col-md-6 item">
 									<span class="num">1 <small>st</small></span>
 									<div class="text-center">
-										<h6 class="fz-16">{{$team->experience_one}}</h6>
-										<span class="opacity-7">{{$team->experience_one_duration}}</span>
+										<h6 class="fz-16">{{translate($dictionaries, 'experience_one',$team->experience_one, 'Team', $team->id)}}</h6>
+										<span class="opacity-7">{{translate($dictionaries, 'experience_one_duration',$team->experience_one_duration, 'Team', $team->id)}}</span>
 									</div>
 								</div>
 								<div class="col-md-6 item">
 									<span class="num">2 <small>st</small></span>
 									<div class="text-center">
-										<h6 class="fz-16">{{$team->experience_tow}}</h6>
-										<span class="opacity-7">{{$team->experience_tow_duration}}</span>
+										<h6 class="fz-16"> {{translate($dictionaries, 'experience_tow',$team->experience_tow, 'Team', $team->id)}}</h6>
+										<span class="opacity-7">{{translate($dictionaries, 'experience_tow_duration',$team->experience_tow_duration, 'Team', $team->id)}}</span>
 									</div>
 								</div>
 								<div class="col-md-6 item">
 									<span class="num">3 <small>st</small></span>
 									<div class="text-center">
-										<h6 class="fz-16">{{$team->experience_three}}</h6>
-										<span class="opacity-7">{{$team->experience_three_duration}}</span>
+										<h6 class="fz-16">{{translate($dictionaries, 'experience_three',$team->experience_three, 'Team', $team->id)}}</h6>
+										<span class="opacity-7">{{translate($dictionaries, 'experience_three_duration',$team->experience_three_duration, 'Team', $team->id)}}</span>
 									</div>
 								</div>
 								<div class="col-md-6 item">
 									<span class="num">4 <small>st</small></span>
 									<div class="text-center">
-										<h6 class="fz-16">{{$team->experience_three}}</h6>
-										<span class="opacity-7">{{$team->experience_three_duration}}</span>
+										<h6 class="fz-16">{{translate($dictionaries, 'experience_four',$team->experience_four, 'Team', $team->id)}}</h6>
+										<span class="opacity-7">{{translate($dictionaries, 'experience_four_duration',$team->experience_four_duration, 'Team', $team->id)}}</span>
 									</div>
 								</div>
 							</div>

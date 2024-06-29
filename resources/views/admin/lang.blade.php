@@ -41,74 +41,57 @@
 		</div>
 		<div class="toast-body">{{__('general.The item has updated successfully')}}</div>
 	</div>
-	<!-- Modal to add new record -->
-	<div class="offcanvas offcanvas-end" id="add-new-record">
-		<div class="offcanvas-header border-bottom">
-			<h5 class="offcanvas-title" id="exampleModalLabel">{{__('general.New Review')}}</h5>
-			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-		</div>
-		<div class="col-sm-12">
-
-		</div>
-		<div class="row offcanvas-body flex-grow-1">
-
-			<form style="padding-right: 0 !important;padding-left: 0 !important;" class="add-new-record" id="form-add-new-record" @submit.prevent="save">
-				<div class="card-cont">
-					<h6>{{__('general.Basic information')}}</h6>
-					<div class="col-sm-12">
-						<div class="mb-2">
-							<label class="form-label" for="basicFullname">{{__('general.Full Name')}}</label>
-							<input v-model="name" type="text" id="name" class="form-control dt-full-name" name="name" placeholder="{{__('general.John Doe')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-						</div>
+	<div class="modal fade" id="form-add-new-record" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+			<div class="modal-content p-3 p-md-5">
+				<div class="modal-body">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="text-center mb-4">
+						<h3 class="mb-2">{{__('general.New Lang')}}</h3>
+						<p class="text-muted">{{__('general.Add a new lang and attach it to a dictionary')}}</p>
 					</div>
-					<div class="col-sm-12">
-						<div class="mb-2">
-							<label class="form-label" for="basicPost">{{__('general.Job')}}</label>
-							<input v-model="job" type="text" id="job" name="job" class="form-control dt-post" placeholder="{{__('general.Web Developer')}}" aria-label="Web Developer" aria-describedby="basicPost2" />
-						</div>
-					</div>
-					<div class="col-sm-12">
-						<div class="mb-2">
-							<label class="form-label" for="address">{{__('general.review')}}</label>
-							<textarea name="review" class="form-control" id="review" v-model="review" rows="5" placeholder="{{__('general.review')}}"></textarea>
-						</div>
-					</div>
-				</div>
-			</form>
-			<div class="card-cont mt-3">
-				<h6>{{__('general.image')}}</h6>
-
-				<div class="col-sm-12">
-					<div class="card-body">
-						<form action="/upload" class="dropzone needsclick" id="dropzone-basic">
-							<div class="dz-message needsclick">
-								{{__('general.Drop files here or click to upload')}}
+					<form id="form-add-new-record" class="row g-3" @submit.prevent="save">
+						<div class="col-sm-12">
+							<div class="mb-2">
+								<label class="form-label" for="basicFullname">{{__('general.Name')}}</label>
+								<input v-model="name" type="text" id="name" class="form-control dt-full-name" name="name" placeholder="{{__('general.Name')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
 							</div>
-							<div class="fallback">
-								<input name="file" type="file" />
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12 mt-4 mb-2" style="padding-right: 0;padding-left:0">
-				@if(auth()->user()->can('super admin')||auth()->user()->can('update review'))
-				<button form="form-add-new-record" :disabled="loading" type="submit" class="btn save me-sm-3 me-1">
-					<template v-if="!loading">{{__('general.Save')}}</template>
-					<template v-if="loading">
-						<div style="height:18px!important" class="sk-chase sk-white">
-							<div class="sk-chase-dot"></div>
-							<div class="sk-chase-dot"></div>
-							<div class="sk-chase-dot"></div>
-							<div class="sk-chase-dot"></div>
-							<div class="sk-chase-dot"></div>
-							<div class="sk-chase-dot"></div>
 						</div>
-					</template>
-				</button>
-				@endif
-				<button id="cancel-modal" type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">{{__('general.Cancel')}}</button>
+						<div class="col-sm-12">
+							<div class="mb-2">
+								<label class="form-label" for="basicFullname">{{__('general.key')}}</label>
+								<input v-model="key" type="text" id="key" class="form-control dt-full-name" name="key" placeholder="{{__('general.key')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-check">
+								<input type="checkbox" class="form-check-input" v-model="is_rtl" id="lang-rtl" />
+								<label class="form-check-label" for="lang-rtl">{{__('general.RTL')}}</label>
+							</div>
+						</div>
+
+						<div class="col-12 text-center">
+							@if(auth()->user()->can('super admin')||auth()->user()->can('create lang'))
+							<button type="submit" class="btn btn-primary me-sm-3 me-1">
+								<template v-if="!loading">{{__('general.Save')}}</template>
+								<template v-if="loading">
+									<div style="height:18px!important" class="sk-chase sk-white">
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+										<div class="sk-chase-dot"></div>
+									</div>
+								</template>
+							</button>
+							@endif
+							<button type="reset" class="btn btn-label-secondary btn-reset" data-bs-dismiss="modal" aria-label="Close">
+								{{__('general.Cancel')}}
+							</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -117,7 +100,7 @@
 
 		<!-- Content -->
 		<div class="container-xxl flex-grow-1 container-p-y">
-			<h4 class="py-3 mb-4"><span class="text-muted fw-light">{{__('general.Website')}} /</span> {{__('general.Review List')}}</h4>
+			<h4 class="py-3 mb-4"><span class="text-muted fw-light">{{__('general.Website')}} /</span> {{__('general.Lang List')}}</h4>
 			<!-- DataTable with Buttons -->
 			<div class="card">
 				<div class="card-datatable table-responsive pt-0">
@@ -129,16 +112,17 @@
 								<option value="15">15</option>
 								<option value="20">20</option>
 							</select>
-							@if(auth()->user()->can('super admin')||auth()->user()->can('create review'))
-							<button @click="onAddClicked" data-bs-target="#add-new-record" data-bs-toggle='offcanvas' class="create-new btn  waves-effect waves-light">
-								<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">{{__('general.Add review')}}</span>
+							@if(auth()->user()->can('super admin')||auth()->user()->can('create lang'))
+							<button @click="onAddClicked" class="create-new btn waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#form-add-new-record">
+								<i class="ti ti-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">{{__('general.Add lang')}}</span>
 							</button>
 							@endif
 						</div>
-
 						<div class="search-cntrl">
+							@if(auth()->user()->can('super admin')||auth()->user()->can('delete lang'))
 							<a @click="onDeleteClicked(ids)" v-if="ids.length" @click="show(item)" href="javascript:;" class="text-body"><i class="ti ti-trash ti-sm me-2"></i></a>
-							<input @keyup.enter="search" v-model="text" placeholder="{{__('general.Search review')}}" class="form-control" />
+							@endif
+							<input @keyup.enter="search" v-model="text" placeholder="{{__('general.Search lang')}}" class="form-control" />
 						</div>
 					</div>
 					<table class="table border-top">
@@ -150,9 +134,7 @@
 									</label>
 								</th>
 								<th>#{{__('general.ID')}}</th>
-								<th>{{__('general.Client')}}</th>
 								<th>{{__('general.Name')}}</th>
-								<th>{{__('general.Job')}}</th>
 								<th>{{__('general.Action')}}</th>
 							</tr>
 						</thead>
@@ -165,26 +147,14 @@
 										</label>
 									</td>
 									<td>#@{{item.id}}</td>
-									<td>
-										<div class="image">
-											<a target="_blank" :href="`/uploads/${item.image}`">
-												<img class="table-image" :src="`/uploads/${item.image}`" />
-											</a>
-											<div class="info">
-												<div class="text-body text-wrap fw-medium">@{{translate("name",item.name, "Review", item.id)}}</div>
-												<div class="text-muted text-truncate mb-0 d-none d-sm-block job">@{{translate("job",item.job,"Review", item.id)}}</div>
-											</div>
-
-										</div>
-									</td>
-									<td>@{{translate("name",item.name, "Review", item.id)}}</td>
-									<td>@{{translate("job",item.job,"Review", item.id)}}</td>
+									<td>@{{item.name}}</td>
 									<td>
 										<div class="d-flex align-items-center">
-											<a data-bs-target="#add-new-record" data-bs-toggle='offcanvas' @click="show(item)" href="javascript:;" class="text-body">
-												<i class="ti ti-{{auth()->user()->can('super admin')||auth()->user()->can('update review')?'edit':'eye'}} ti-sm me-2"></i>
+											<a data-bs-target="#form-add-new-record" data-bs-toggle='modal' @click="show(item)" href="javascript:;" class="text-body">
+												<i class="ti ti-{{auth()->user()->can('super admin')||auth()->user()->can('update lang')?'edit':'eye'}} ti-sm me-2"></i>
 											</a>
-											@if(auth()->user()->can('super admin')||auth()->user()->can('delete review'))
+
+											@if(auth()->user()->can('super admin')||auth()->user()->can('delete lang'))
 											<a @click="onDeleteClicked([item.id])" href="javascript:;" class="text-body delete-record"><i class="ti ti-trash ti-sm mx-2"></i></a>
 											@endif
 										</div>
@@ -242,14 +212,11 @@
 </div>
 @push('js')
 <script>
-	let uploadedFiles = [];
 	Vue.component('paginate', VuejsPaginate);
 	new Vue({
 		el: "#app",
 		components: {},
 		data: {
-			dictionaries: @json($dictionaries),
-			lang: @json(app() -> getLocale()),
 			ids: [],
 			loading: false,
 			text: "",
@@ -258,42 +225,17 @@
 			message: 'Hello Vue!',
 			items: @json($items),
 			name: "",
-			job: "",
-			review: "",
+			is_rtl: false,
+			key:"",
 			id: "",
 		},
 		methods: {
-			translate(key, def, className = null, model_id = null) {
-				let dic = null;
-				if (className) {
-					dic = this.dictionaries.filter((elm) => {
-						return elm.lang == this.lang && elm.key == key && elm.class == className && elm.model_id == model_id;
-					});
-				} else {
-					dic = this.dictionaries.filter((elm) => {
-						return elm.lang == this.lang && elm.key == key;
-					});
-				}
-				return dic.length ? dic[0].value : def;
-			},
-
-
-			getDictionaries() {
-				axios.get(`${baseUrl}/dictionaries`).then(res => {
-					this.dictionaries = res.data;
-				})
-			},
-
-
 			setAllIds() {
 				if (this.ids.length == this.items.data.length) {
 					this.ids = [];
 				} else {
 					let ids = [];
 					this.items.data.forEach(item => {
-						if (action == "create" || action == "update") {
-							this.getDictionaries();
-						}
 						ids.push(item.id);
 					});
 					this.ids = ids;
@@ -329,7 +271,7 @@
 					buttonsStyling: false
 				}).then((result) => {
 					if (result.value) {
-						axios.post(`${baseUrl}/admin/reviews/multi-delete`, {
+						axios.post(`${baseUrl}/admin/langs/multi-delete`, {
 							ids: ids
 						}).then(res => {
 							this.ids = this.ids.filter(id => {
@@ -358,7 +300,7 @@
 			},
 			getItems(action = "") {
 				this.loading = true;
-				axios.get(`${baseUrl}/admin/reviews/data?page=${this.page}&page_size=${this.page_size}&text=${this.text}`).then(res => {
+				axios.get(`${baseUrl}/admin/langs/data?page=${this.page}&page_size=${this.page_size}&text=${this.text}`).then(res => {
 					this.items = res.data;
 					this.loading = false;
 					if (action) {
@@ -366,61 +308,44 @@
 						toastAnimationExample.querySelector('.ti').classList.add("text-primary");
 						toastAnimation = new bootstrap.Toast(toastAnimationExample);
 						toastAnimation.show();
-						if (action == "create" || action == "update") {
-							this.getDictionaries();
-						}
-
 					}
 				})
 			},
 			show(item) {
 				fv.resetForm();
+				this.name = item.name;
+				this.is_rtl = item.is_rtl;
+				this.key = item.key;
 				this.id = item.id;
-				this.name = this.translate("name",item.name, "Review", this.id);
-				this.review = this.translate("review",item.review, "Review", this.id);
-				this.job = this.translate("job",item.job, "Review", this.id);
-				uploadedFiles = [];
 			},
 			onAddClicked() {
 				fv.resetForm();
 				this.name = "";
-				this.review = "";
-				this.job = "";
+				this.is_rtl = false;
+				this.key = "";
 				this.id = "";
-				uploadedFiles = [];
 			},
 			save() {
 				fv.validate().then((status) => {
 					if (status != "Invalid") {
-						let formData = new FormData();
-						formData.append("name", this.name);
-						formData.append("job", this.job);
-						formData.append("review", this.review);
-						if (uploadedFiles.length) {
-							formData.append("image", uploadedFiles[0]);
-						}
+						let formData = {
+							name: this.name,
+							is_rtl: this.is_rtl,
+							key: this.key
+						};
 						if (!this.id) {
-							if (uploadedFiles.length == 0) {
-								const toastAnimationExample = document.querySelector(`.image-toast-ex`);
-								toastAnimationExample.querySelector('.ti').classList.add("text-danger");
-								toastAnimation = new bootstrap.Toast(toastAnimationExample);
-								toastAnimation.show();
-								return;
-							}
 							this.loading = true;
-							axios.post(`${baseUrl}/admin/reviews`, formData).then(res => {
+							axios.post(`${baseUrl}/admin/langs`, formData).then(res => {
 								this.loading = false;
-								this.name = "";
-								this.job = "";
-								$("#cancel-modal").click();
+								$(".btn-reset").click();
 								this.page = 1;
 								this.getItems("create");
 							})
 						} else {
 							this.loading = true;
-							axios.post(`${baseUrl}/admin/reviews/${this.id}`, formData).then(res => {
+							axios.post(`${baseUrl}/admin/langs/${this.id}`, formData).then(res => {
 								this.loading = false;
-								$("#cancel-modal").click();
+								$(".btn-reset").click();
 								this.page = 1;
 								this.getItems("update");
 							})
@@ -432,57 +357,7 @@
 			},
 		}
 	});
-	const previewTemplate = `<div class="dz-preview dz-file-preview">
-<div class="dz-details">
-  <div class="dz-thumbnail">
-    <img data-dz-thumbnail>
-    <span class="dz-nopreview">No preview</span>
-    <div class="dz-success-mark"></div>
-    <div class="dz-error-mark"></div>
-    <div class="dz-error-message"><span data-dz-errormessage></span></div>
-    <div class="progress">
-      <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
-    </div>
-  </div>
-  <div class="dz-filename" data-dz-name></div>
-  <div class="dz-size" data-dz-size></div>
-</div>
-</div>`;
-
-	// ? Start your code from here
-
-	// Basic Dropzone
-	// --------------------------------------------------------------------
 	document.addEventListener('DOMContentLoaded', function(e) {
-		const dropzoneBasic = document.querySelector('#dropzone-basic');
-		if (dropzoneBasic) {
-			const myDropzone = new Dropzone(dropzoneBasic, {
-				previewTemplate: previewTemplate,
-				parallelUploads: 1,
-				maxFilesize: 5,
-				addRemoveLinks: true,
-				maxFiles: 1,
-				acceptedFiles: 'image/*',
-				init: function() {
-					this.on("addedfiles", (files) => {
-						for (const key in files) {
-							if (typeof files[key] == "object") {
-								uploadedFiles.push(files[key]);
-								console.log(uploadedFiles);
-							}
-						}
-					});
-				},
-				removedfile: function(file) {
-					var name = file.name;
-					let index = uploadedFiles.findIndex((e) => e == file);
-					uploadedFiles.splice(index, 1);
-					console.log(uploadedFiles);
-					var _ref;
-					return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-				}
-			});
-		}
 		const formAddNewRecord = document.getElementById('form-add-new-record');
 		fv = FormValidation.formValidation(formAddNewRecord, {
 			fields: {
@@ -493,14 +368,7 @@
 						}
 					}
 				},
-				job: {
-					validators: {
-						notEmpty: {
-							message: @json(__('general.the field is required'))
-						}
-					}
-				},
-				review: {
+				key: {
 					validators: {
 						notEmpty: {
 							message: @json(__('general.the field is required'))

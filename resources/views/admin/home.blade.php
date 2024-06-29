@@ -49,7 +49,12 @@
 			<div class="col-12">
 				<div class="card">
 					<div class="card-header sticky-element bg-label-secondary d-flex justify-content-sm-between align-items-sm-center flex-column flex-sm-row">
-						<h5 class="card-title mb-sm-0 me-2">{{__('general.Home Form')}}</h5>
+						<h5 class="card-title mb-sm-0 me-2" style="display:flex; gap:30px">
+							<div>
+								{{__('general.Home Form')}}
+							</div>
+						</h5>
+
 						<div class="action-btns">
 							@if(auth()->user()->can('super admin')||auth()->user()->can('update home'))
 							<button :disabled="loading" form="form-add-new-record" type="submit" class="btn save mx-3">
@@ -224,24 +229,33 @@
 		components: {},
 		data: {
 			loading: false,
+			langs: @json($langs),
 			id: @json($id),
-			banner_content: @json($banner_content),
-			banner_main_title: @json($banner_main_title),
-			banner_first_title: @json($banner_first_title),
-			banner_second_title: @json($banner_second_title),
-			intro_main_title: @json($intro_main_title),
-			intro_second_title: @json($intro_second_title),
-			intro_content: @json($intro_content),
-			intro_one_number: @json($intro_one_number),
-			intro_one_text: @json($intro_one_text),
-			intro_tow_number: @json($intro_tow_number),
-			intro_tow_text: @json($intro_tow_text),
+			banner_content: "{{translate($dictionaries, 'banner_content',$banner_content, 'Home', $id)}}",
+			banner_main_title: "{{translate($dictionaries, 'banner_main_title',$banner_main_title,'Home', $id)}}",
+			banner_first_title: "{{translate($dictionaries, 'banner_first_title',$banner_first_title, 'Home', $id)}}",
+			banner_second_title: "{{translate($dictionaries, 'banner_second_title',$banner_second_title, 'Home', $id)}}",
+			intro_main_title: "{{translate($dictionaries, 'intro_main_title',$intro_main_title, 'Home', $id)}}",
+			intro_second_title: "{{translate($dictionaries, 'intro_second_title',$intro_second_title, 'Home', $id)}}",
+			intro_content: "{{translate($dictionaries, 'intro_content',$intro_content,'Home', $id)}}",
+			intro_one_number: "{{translate($dictionaries, 'intro_one_number',$intro_one_number,'Home', $id)}}",
+			intro_one_text: "{{translate($dictionaries, 'intro_one_text',$intro_one_text,'Home', $id)}}",
+			intro_tow_number: "{{translate($dictionaries, 'intro_tow_number',$intro_tow_number,'Home', $id)}}",
+			intro_tow_text: "{{translate($dictionaries, 'intro_tow_text',$intro_tow_text,'Home', $id)}}",
 			intro_video: @json($intro_video),
-			adv_text: @json($adv_text),
+			adv_text: "{{translate($dictionaries, 'adv_text',$adv_text,'Home', $id)}}",
 			banner_image: @json($banner_image),
 			intro_image: @json($intro_image),
 		},
 		methods: {
+			changeLang(lang) {
+				let className = 'App\\Models\\Home';
+				this.currentLang = lang;
+				axios.get(`${baseUrl}/dictionaries`).then(res => {
+					this.dictionaries = res.data;
+					console.log(this.dictionaries)
+				}).catch((res) => {})
+			},
 			save() {
 				fv.validate().then((status) => {
 					if (status != "Invalid") {
@@ -250,6 +264,7 @@
 							formData.append('banner_image', uploadedBannerFiles[0]);
 						}
 						formData.append('banner_content', this.banner_content);
+						formData.append('lang', this.currentLang);
 						formData.append('banner_main_title', this.banner_main_title);
 						formData.append('banner_first_title', this.banner_first_title);
 						formData.append('banner_second_title', this.banner_second_title);

@@ -21,7 +21,7 @@ class BlogController extends Controller
     }
     public function index()
     {
-        $items = Blog::with("blogCategories","blogTags")->latest()->paginate(request()->page_size);
+        $items = Blog::with("blogCategories", "blogTags")->latest()->paginate(request()->page_size);
         return view('admin.blog', [
             "items" => $items,
             "categories" => BlogCategory::get(),
@@ -31,7 +31,7 @@ class BlogController extends Controller
 
     public function indexData()
     {
-        return Blog::with("blogCategories","blogTags")->when(request()->text, function ($q) {
+        return Blog::with("blogCategories", "blogTags")->when(request()->text, function ($q) {
             $q->where("name", "like", "%" . request()->text . "%");
         })->latest()->paginate(request()->page_size);
     }
@@ -41,10 +41,8 @@ class BlogController extends Controller
         // Validator request
         $v = Validator::make($request->all(), [
             'name' => "required",
-            'name_ar' => "required",
             'author_name' => "required",
             'content' => "required",
-            'content_ar' => "required",
             'author_note' => "required",
             'author_about' => "required",
             'image' => "required",
@@ -84,6 +82,26 @@ class BlogController extends Controller
         $input["second_image"] = $second_image;
         $input["author_image"] = $author_image;
         $blog = Blog::create($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "author_note", "value" => request()->author_note, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "author_about", "value" => request()->author_about, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_one_title", "value" => request()->section_one_title, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_one_content", "value" => request()->section_one_content, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_tow_title", "value" => request()->section_tow_title, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_tow_content", "value" => request()->section_tow_content, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_three_title", "value" => request()->section_three_title, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_three_content", "value" => request()->section_three_content, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_three_point_one", "value" => request()->section_three_point_one, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_three_point_tow", "value" => request()->section_three_point_tow, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_three_point_three", "value" => request()->section_three_point_three, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_four_title", "value" => request()->section_four_title, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_four_content", "value" => request()->section_four_content, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_four_point_one", "value" => request()->section_four_point_one, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_four_point_tow", "value" => request()->section_four_point_tow, "class" => "Blog", "model_id" => $blog->id],
+            ['key' => "section_four_point_three", "value" => request()->section_four_point_three, "class" => "Blog", "model_id" => $blog->id],
+        ]);
+
         $blog->blogCategories()->sync(request()->categories_ids);
         $blog->blogTags()->sync(request()->tags_ids);
     }
@@ -92,12 +110,10 @@ class BlogController extends Controller
         // Validator request
         $v = Validator::make($request->all(), [
             'name' => "required",
-            'name_ar' => "required",
             'author_name' => "required",
             'author_note' => "required",
             'author_about' => "required",
             'content' => "required",
-            'content_ar' => "required",
             'image' => "nullable",
             'first_image' => "nullable",
             'second_image' => "nullable",
@@ -153,6 +169,26 @@ class BlogController extends Controller
             Storage::delete($item->author_image);
         }
         $item->update($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "author_note", "value" => request()->author_note, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "author_about", "value" => request()->author_about, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_one_title", "value" => request()->section_one_title, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_one_content", "value" => request()->section_one_content, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_tow_title", "value" => request()->section_tow_title, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_tow_content", "value" => request()->section_tow_content, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_three_title", "value" => request()->section_three_title, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_three_content", "value" => request()->section_three_content, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_three_point_one", "value" => request()->section_three_point_one, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_three_point_tow", "value" => request()->section_three_point_tow, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_three_point_three", "value" => request()->section_three_point_three, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_four_title", "value" => request()->section_four_title, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_four_content", "value" => request()->section_four_content, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_four_point_one", "value" => request()->section_four_point_one, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_four_point_tow", "value" => request()->section_four_point_tow, "class" => "Blog", "model_id" => $item->id],
+            ['key' => "section_four_point_three", "value" => request()->section_four_point_three, "class" => "Blog", "model_id" => $item->id],
+        ]);
+
         $item->blogCategories()->sync(request()->categories_ids);
         $item->blogTags()->sync(request()->tags_ids);
     }

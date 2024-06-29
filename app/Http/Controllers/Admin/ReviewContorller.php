@@ -14,9 +14,8 @@ class ReviewContorller extends Controller
     {
         $this->middleware("permission:super admin|create review")->only(["store"]);
         $this->middleware("permission:super admin|update review")->only("update");
-        $this->middleware("permission:super admin|view review")->only(["index","indexData"]);
+        $this->middleware("permission:super admin|view review")->only(["index", "indexData"]);
         $this->middleware("permission:super admin|delete review")->only("destroy");
-        
     }
 
     public function index()
@@ -48,7 +47,12 @@ class ReviewContorller extends Controller
         $image = $request->file("image")->store("");
         $input = $v->validated();
         $input["image"] = $image;
-        Review::create($input);
+        $review = Review::create($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Review", "model_id" => $review->id],
+            ['key' => "review", "value" => request()->review, "class" => "Review", "model_id" => $review->id],
+            ['key' => "job", "value" => request()->job, "class" => "Review", "model_id" => $review->id],
+        ]);
     }
     public function update(Request $request, $id)
     {
@@ -71,6 +75,11 @@ class ReviewContorller extends Controller
             Storage::delete($item->image);
         }
         $item->update($input);
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "Review", "model_id" => $item->id],
+            ['key' => "review", "value" => request()->review, "class" => "Review", "model_id" => $item->id],
+            ['key' => "job", "value" => request()->job, "class" => "Review", "model_id" => $item->id],
+        ]);
     }
 
     public function destroy()

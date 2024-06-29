@@ -38,7 +38,10 @@ class ProjectCategoryController extends Controller
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
-        ProjectCategory::create($v->validated());
+        $category = ProjectCategory::create($v->validated());
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "ProjectCategory", "model_id" => $category->id]
+        ]);
     }
     public function update(Request $request, $id)
     {
@@ -51,6 +54,9 @@ class ProjectCategoryController extends Controller
         }
         $item = ProjectCategory::find($id);
         $item->update($v->validated());
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "ProjectCategory", "model_id" => $item->id]
+        ]);
     }
 
     public function destroy()

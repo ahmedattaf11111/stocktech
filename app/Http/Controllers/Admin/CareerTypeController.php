@@ -40,7 +40,11 @@ class CareerTypeController extends Controller
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
-        CareerType::create($v->validated());
+        $item=CareerType::create($v->validated());
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "CareerType", "model_id" => $item->id]
+        ]);
+
     }
     public function update(Request $request, $id)
     {
@@ -53,6 +57,10 @@ class CareerTypeController extends Controller
         }
         $item = CareerType::find($id);
         $item->update($v->validated());
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "CareerType", "model_id" => $item->id]
+        ]);
+        
     }
 
     public function destroy()

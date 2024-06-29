@@ -124,10 +124,10 @@
 										</label>
 									</td>
 									<td>#@{{item.id}}</td>
-									<td>@{{item.name}}</td>
+									<td>@{{translate("name", item.name, "CareerType", item.id)}}</td>
 									<td>
 										<div class="d-flex align-items-center">
-											<a data-bs-target="#add-new-record" data-bs-toggle='offcanvas' @click="show(item)" href="javascript:;" class="text-body">
+											<a data-bs-target="#form-add-new-record" data-bs-toggle='modal' @click="show(item)" href="javascript:;" class="text-body">
 												<i class="ti ti-{{auth()->user()->can('super admin')||auth()->user()->can('update career-type')?'edit':'eye'}} ti-sm me-2"></i>
 											</a>
 											@if(auth()->user()->can('super admin')||auth()->user()->can('delete career-type'))
@@ -193,6 +193,8 @@
 		el: "#app",
 		components: {},
 		data: {
+			dictionaries: @json($dictionaries),
+			lang: @json(app() -> getLocale()),
 			ids: [],
 			loading: false,
 			text: "",
@@ -204,6 +206,25 @@
 			id: "",
 		},
 		methods: {
+			translate(key, def, className = null, model_id = null) {
+				let dic = null;
+				if (className) {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key && elm.class == className && elm.model_id == model_id;
+					});
+				} else {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key;
+					});
+				}
+				return dic.length ? dic[0].value : def;
+			},
+
+			getDictionaries() {
+				axios.get(`${baseUrl}/dictionaries`).then(res => {
+					this.dictionaries = res.data;
+				})
+			},
 			setAllIds() {
 				if (this.ids.length == this.items.data.length) {
 					this.ids = [];
@@ -282,13 +303,16 @@
 						toastAnimationExample.querySelector('.ti').classList.add("text-primary");
 						toastAnimation = new bootstrap.Toast(toastAnimationExample);
 						toastAnimation.show();
+						if (action == "create" || action == "update") {
+							this.getDictionaries();
+						}
 					}
 				})
 			},
 			show(item) {
 				fv.resetForm();
-				this.name = item.name;
 				this.id = item.id;
+				this.name = this.translate("name", item.name, "CareerType", this.id);
 
 				uploadedFiles = [];
 			},

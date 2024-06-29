@@ -36,25 +36,29 @@ class BlogTagController extends Controller
         // Validator request
         $v = Validator::make($request->all(), [
             'name' => "required",
-            'name_ar' => "required",
         ]);
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
-        BlogTag::create($v->validated());
+        $tag = BlogTag::create($v->validated());
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "BlogTag", "model_id" => $tag->id]
+        ]);
     }
     public function update(Request $request, $id)
     {
         // Validator request
         $v = Validator::make($request->all(), [
             'name' => "required",
-            'name_ar' => "required",
         ]);
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
         $item = BlogTag::find($id);
         $item->update($v->validated());
+        insertDictionary([
+            ['key' => "name", "value" => request()->name, "class" => "BlogTag", "model_id" => $item->id]
+        ]);
     }
 
     public function destroy()

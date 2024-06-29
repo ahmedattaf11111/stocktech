@@ -14,7 +14,6 @@ class AdminSettingController extends Controller
     {
         // Validator request
         $v = Validator::make($request->all(), [
-            'app_name_ar' => "required",
             'app_name_en' => "required",
             'color' => "nullable",
             'image' => "nullable",
@@ -30,13 +29,16 @@ class AdminSettingController extends Controller
         }
         $adminSetting = AdminSetting::first();
         if ($adminSetting) {
-            if ($request->file("image")&&$adminSetting->image) {
+            if ($request->file("image") && $adminSetting->image) {
                 Storage::delete($adminSetting->image);
             }
             $adminSetting->update($input);
         } else {
-            AdminSetting::create($input);
+            $adminSetting = AdminSetting::create($input);
         }
+        insertDictionary([
+            ['key' => "app_name_en", "value" => request()->app_name_en, "class" => "AdminSetting", "model_id" => $adminSetting->id],
+        ]);
     }
     public function show()
     {

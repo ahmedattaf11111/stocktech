@@ -53,12 +53,13 @@
 									<div class="full-width">
 										<div class="tags mb-15">
 											@foreach($blog->blogCategories as $category)
-											<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">{{$category->name_trans}}</a>
+											<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">
+												{{translate($dictionaries,'name',$category->name, 'BlogCategory', $category->id)}} </a>
 											@endforeach
 										</div>
 										<h5>
 											<a href="/web/blog-details/{{$blog->id}}">
-												{{$blog->name_trans}}
+												{{translate($dictionaries,'name',$blog->name, 'Blog', $blog->id)}}
 											</a>
 										</h5>
 										<span class="date fz-12 ls1 text-u opacity-7 mt-80">
@@ -108,13 +109,14 @@
 														</path>
 													</svg>
 													<h4>
-														{{$review->review}}
+														{{translate($dictionaries, 'review',$review->review, 'Review', $review->id)}}
+
 													</h4>
 												</div>
 												<div class="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
 													<div>
-														<h5>{{$review->name}}</h5>
-														<span class="sub-title main-color">{{$review->job}}</span>
+														<h5>{{translate($dictionaries, 'job',$review->job, 'Review', $review->id)}}</h5>
+														<span class="sub-title main-color">{{translate($dictionaries, 'name',$review->name, 'Review', $review->id)}}</span>
 													</div>
 													<div class="ml-auto">
 														<div class="rate-stars fz-14">
@@ -188,12 +190,14 @@
 									<div class="full-width">
 										<div class="tags mb-15">
 											@foreach($blog->blogCategories as $category)
-											<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">{{$category->name_trans}}</a>
+											<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">
+												{{translate($dictionaries,'name',$category->name, 'BlogCategory', $category->id)}}
+											</a>
 											@endforeach
 										</div>
 										<h5>
 											<a href="/web/blog-details/{{$blog->id}}">
-												{{$blog->name_trans}}
+											{{translate($dictionaries,'name',$blog->name, 'Blog', $blog->id)}}
 											</a>
 										</h5>
 										<span class="date fz-12 ls1 text-u opacity-7 mt-80">

@@ -17,7 +17,7 @@
                 <div class="column">
                     <div class="mb-40">
                         <h6 class="sub-title mb-30">{{__('general.Address')}}</h6>
-                        <h5 class="opacity-8">{{$web_address}}</h5>
+                        <h5 class="opacity-8">{{translate($dictionaries, 'address',$web_address, 'WebSetting', $web_setting_id)}}</h5>
                     </div>
 
                     <a href="#0" class="underline">
@@ -59,7 +59,7 @@
                             <a  data-bs-toggle="modal" data-bs-target="#privacyPolicy" href="page-about.html">{{__('general.Privacy policy')}}</a>
                         </li>
                         <li>
-                            <a href="page-contact.html">{{__('general.Contact Us')}}</a>
+                            <a href="/web/contact">{{__('general.Contact Us')}}</a>
                         </li>
                     </ul>
                 </div>

@@ -6,7 +6,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-	<title>{{$app_name}}</title>
+	<title>{{translate($dictionaries, 'app_name_en',$web_app_name_en, 'WebSetting', $web_setting_id)}}</title>
 
 	<meta name="description" content="" />
 
@@ -107,7 +107,7 @@
 						</a>
 					</div>
 					<!-- /Logo -->
-					<h3 class="mb-1">{{__('general.Welcome to')}} {{$app_name}}! 👋</h3>
+					<h3 class="mb-1">{{__('general.Welcome to')}} {{translate($dictionaries, 'app_name_en',$web_app_name_en, 'WebSetting', $web_setting_id)}}! 👋</h3>
 					<p class="mb-4">{{__('general.Please sign-in to your account and start the adventure')}}</p>
 
 					<form id="formAuthentication" class="mb-3" @submit.prevent="login">

@@ -4,7 +4,7 @@ return [
     "setting" => "Settings",
 
     "app_name_ar" => "Application (arabic)",
-    "app_name_en" => "Application (english)",
+    "app_name_en" => "Application name",
     "color" => "Color",
     "Total_users"=>"Total :number users",
     "image_required" => "Image required",
@@ -107,6 +107,10 @@ return [
     "Please enter your password" => "Please enter your password",
     "Password must be more than 8 characters" => "Password must be more than 8 characters",
     "Email" => "Email",
+    "key" => "Key",
+    
+    "Search lang"=>"Search lang",
+    "RTL"=>"RTL",
     "lang" => "Lang",
     "Arabic" => "Arabic",
     "English" => "English",
@@ -374,7 +378,10 @@ return [
     "dont have an account" => "Dont have an account?",
     "Logout" => "Logout",
     "Select All"=>"Select All",
-
+    "New Lang"=>"New Lang",
+    "Lang List"=>"Lang List",
+    "Add lang"=>"Add lang",
+    "Add a new lang and attach it to a dictionary"=>"Add a new lang and attach it to a dictionary",
     "Login faild" => "Email or password is incorrect",
     "Email token" => "Email allready token",
     "Name token" => "Name allready token",

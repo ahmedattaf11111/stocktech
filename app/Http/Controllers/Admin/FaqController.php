@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class FaqController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware("permission:super admin|create faq")->only(["store"]);
@@ -17,7 +17,7 @@ class FaqController extends Controller
         $this->middleware("permission:super admin|view faq")->only(["index", "indexData"]);
         $this->middleware("permission:super admin|delete faq")->only("destroy");
     }
-    
+
     public function index()
     {
         $items = Faq::latest()->paginate(request()->page_size);
@@ -41,7 +41,11 @@ class FaqController extends Controller
         if ($v->fails()) {
             return response()->json($v->errors(), 422);
         }
-        Faq::create($v->validated());
+        $faq = Faq::create($v->validated());
+        insertDictionary([
+            ['key' => "question", "value" => request()->question, "class" => "Faq", "model_id" => $faq->id],
+            ['key' => "answer", "value" => request()->answer, "class" => "Faq", "model_id" => $faq->id],
+        ]);
     }
     public function update(Request $request, $id)
     {
@@ -55,6 +59,11 @@ class FaqController extends Controller
         }
         $item = Faq::find($id);
         $item->update($v->validated());
+        insertDictionary([
+            ['key' => "question", "value" => request()->question, "class" => "Faq", "model_id" => $item->id],
+            ['key' => "answer", "value" => request()->answer, "class" => "Faq", "model_id" => $item->id],
+        ]);
+
     }
 
     public function destroy()

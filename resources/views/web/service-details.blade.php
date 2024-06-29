@@ -35,9 +35,11 @@
 					<div class="row justify-content-center">
 						<div class="col-lg-8">
 							<div>
-								<h6 class="sub-title main-color mb-15">{{$service->name}}</h6>
+								<h6 class="sub-title main-color mb-15">
+									{{translate($dictionaries, 'name',$service->name, 'Service', $service->id)}}
+								</h6>
 								<h4>
-									{{$service->description}}
+									{{translate($dictionaries, 'description',$service->description, 'Service', $service->id)}}
 								</h4>
 							</div>
 						</div>
@@ -59,7 +61,8 @@
 					<div class="col-lg-4">
 						<div class="text md-mb50">
 							<p>
-								{{$service->detail_content}}
+								{{translate($dictionaries, 'detail_content',$service->detail_content, 'Service', $service->id)}}
+
 							</p>
 						</div>
 					</div>
@@ -73,7 +76,9 @@
 												<path fill-rule="evenodd" clip-rule="evenodd" d="M7.71108 3.78684L8.22361 4.29813L7.71263 4.80992L4.64672 7.87832L4.13433 7.36688L6.87531 4.62335H1.11181H0.750039H0.388177L0.382812 0.718232H1.10645L1.11082 3.90005H6.80113L4.12591 1.22972L4.63689 0.718262L7.71108 3.78684Z" fill="#14cf93"></path>
 											</svg>
 										</span>
-										<h6 class="inline fw-400"> {{$service->detail_point_one}}</h6>
+										<h6 class="inline fw-400">
+											{{translate($dictionaries, 'detail_point_one',$service->detail_point_one, 'Service', $service->id)}}
+										</h6>
 									</li>
 									<li class="mt-10 nowrap">
 										<span class="icon">
@@ -81,7 +86,9 @@
 												<path fill-rule="evenodd" clip-rule="evenodd" d="M7.71108 3.78684L8.22361 4.29813L7.71263 4.80992L4.64672 7.87832L4.13433 7.36688L6.87531 4.62335H1.11181H0.750039H0.388177L0.382812 0.718232H1.10645L1.11082 3.90005H6.80113L4.12591 1.22972L4.63689 0.718262L7.71108 3.78684Z" fill="#14cf93"></path>
 											</svg>
 										</span>
-										<h6 class="inline fw-400">{{$service->detail_point_tow}}</h6>
+										<h6 class="inline fw-400">
+											{{translate($dictionaries, 'detail_point_tow',$service->detail_point_tow, 'Service', $service->id)}}
+										</h6>
 									</li>
 									<li class="mt-10 nowrap">
 										<span class="icon">
@@ -89,7 +96,9 @@
 												<path fill-rule="evenodd" clip-rule="evenodd" d="M7.71108 3.78684L8.22361 4.29813L7.71263 4.80992L4.64672 7.87832L4.13433 7.36688L6.87531 4.62335H1.11181H0.750039H0.388177L0.382812 0.718232H1.10645L1.11082 3.90005H6.80113L4.12591 1.22972L4.63689 0.718262L7.71108 3.78684Z" fill="#14cf93"></path>
 											</svg>
 										</span>
-										<h6 class="inline fw-400">{{$service->detail_point_three}}</h6>
+										<h6 class="inline fw-400">
+											{{translate($dictionaries, 'detail_point_three',$service->detail_point_three, 'Service', $service->id)}}
+										</h6>
 									</li>
 								</ul>
 							</div>
@@ -101,7 +110,9 @@
 												<path fill-rule="evenodd" clip-rule="evenodd" d="M7.71108 3.78684L8.22361 4.29813L7.71263 4.80992L4.64672 7.87832L4.13433 7.36688L6.87531 4.62335H1.11181H0.750039H0.388177L0.382812 0.718232H1.10645L1.11082 3.90005H6.80113L4.12591 1.22972L4.63689 0.718262L7.71108 3.78684Z" fill="#14cf93"></path>
 											</svg>
 										</span>
-										<h6 class="inline fw-400">{{$service->detail_point_four}}</h6>
+										<h6 class="inline fw-400">
+											{{translate($dictionaries, 'detail_point_four',$service->detail_point_four, 'Service', $service->id)}}
+										</h6>
 									</li>
 									<li class="mt-10 nowrap">
 										<span class="icon">
@@ -109,7 +120,10 @@
 												<path fill-rule="evenodd" clip-rule="evenodd" d="M7.71108 3.78684L8.22361 4.29813L7.71263 4.80992L4.64672 7.87832L4.13433 7.36688L6.87531 4.62335H1.11181H0.750039H0.388177L0.382812 0.718232H1.10645L1.11082 3.90005H6.80113L4.12591 1.22972L4.63689 0.718262L7.71108 3.78684Z" fill="#14cf93"></path>
 											</svg>
 										</span>
-										<h6 class="inline fw-400">{{$service->detail_point_five}}</h6>
+										<h6 class="inline fw-400">
+											{{translate($dictionaries, 'detail_point_five',$service->detail_point_five, 'Service', $service->id)}}
+
+										</h6>
 									</li>
 									<li class="mt-10 nowrap">
 										<span class="icon">
@@ -117,7 +131,9 @@
 												<path fill-rule="evenodd" clip-rule="evenodd" d="M7.71108 3.78684L8.22361 4.29813L7.71263 4.80992L4.64672 7.87832L4.13433 7.36688L6.87531 4.62335H1.11181H0.750039H0.388177L0.382812 0.718232H1.10645L1.11082 3.90005H6.80113L4.12591 1.22972L4.63689 0.718262L7.71108 3.78684Z" fill="#14cf93"></path>
 											</svg>
 										</span>
-										<h6 class="inline fw-400">{{$service->detail_point_six}}</h6>
+										<h6 class="inline fw-400">
+											{{translate($dictionaries, 'detail_point_six',$service->detail_point_six, 'Service', $service->id)}}
+										</h6>
 									</li>
 								</ul>
 							</div>
@@ -160,12 +176,19 @@
 														<path id="Path_76570" data-name="Path 76570" d="M-23.723-530.169v97.327H-121.05v-68.7q0-40.076,13.359-73.472T-62.845-639.9l36.259,28.625Q-63.8-570.244-68.57-530.169Zm158.395,0v97.327H37.345v-68.7q0-40.076,13.359-73.472T95.55-639.9l36.259,28.625Q94.6-570.244,89.825-530.169Z" transform="translate(121.55 640.568)" fill="none" stroke="#1a1a1a" stroke-width="1" opacity="0.322">
 														</path>
 													</svg>
-													<h4>{{$review->review}}</h4>
+													<h4>
+														{{translate($dictionaries, 'review',$review->review, 'Review', $review->id)}}
+													</h4>
 												</div>
 												<div class="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
 													<div>
-														<h5>{{$review->name}}</h5>
-														<span class="sub-title main-color">{{$review->job}}</span>
+														<h5>
+															{{translate($dictionaries, 'name',$review->name, 'Review', $review->id)}}
+														</h5>
+														<span class="sub-title main-color">
+															{{translate($dictionaries, 'job',$review->job, 'Review', $review->id)}}
+
+														</span>
 													</div>
 													<div class="ml-auto">
 														<div class="rate-stars fz-14">
@@ -226,9 +249,11 @@
 							<div class="icon mb-40 opacity-5">
 								<img src="/uploads/{{$service->images[0]??''}}" alt="">
 							</div>
-							<h5 class="mb-15">{{$service->name}}</h5>
-							<p>
-							{{$service->description}}
+							<h5 class="mb-15">
+								{{translate($dictionaries, 'name',$service->name, 'Service', $service->id)}}
+							</h5>
+							<p>								
+								{{translate($dictionaries, 'description',$service->description, 'Service', $service->id)}}
 							</p>
 							<a href="/web/service-details/{{$service->id}}" class="rmore mt-30">
 								<span class="sub-title">{{__('general.Read More')}}</span>
@@ -266,12 +291,14 @@
 									@foreach($faqs as $index=>$faq)
 									<div class="item @if($index==0) active @endif mb-15 wow fadeInUp" data-wow-delay=".1s">
 										<div class="title">
-											<h6>{{$faq->question}}</h6>
+										<h6>
+											{{translate($dictionaries, 'question',$faq->question, 'Faq', $faq->id)}}
+										</h6>
 											<span class="ico ti-plus"></span>
 										</div>
 										<div class="accordion-info">
 											<p class="">
-											{{$faq->answer}}
+											{{translate($dictionaries, 'answer',$faq->answer, 'Faq', $faq->id)}}
 											</p>
 										</div>
 									</div>

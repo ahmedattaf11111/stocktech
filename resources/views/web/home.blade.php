@@ -14,7 +14,7 @@
 						<div class="col-lg-6">
 							<div class="text mb-100">
 								<h4>
-									{{$home->banner_content}}
+									{{translate($dictionaries,"banner_content",$home->banner_content,"Home",$home->id)}}
 								</h4>
 							</div>
 						</div>
@@ -24,10 +24,10 @@
 					<div class="container">
 						<div class="lg-text">
 							<div class="d-flex">
-								<h6>{{$home->banner_main_title}}</h6>
-								<h6 class="ml-auto">{{$home->banner_first_title}}</h6>
+								<h6>{{translate($dictionaries,"banner_main_title",$home->banner_main_title,"Home",$home->id)}}</h6>
+								<h6 class="ml-auto">{{translate($dictionaries,"banner_first_title",$home->banner_first_title,"Home",$home->id)}}</h6>
 							</div>
-							<h1>{{$home->banner_second_title}}</h1>
+							<h1>{{translate($dictionaries,"banner_second_title",$home->banner_second_title,"Home",$home->id)}}</h1>
 						</div>
 					</div>
 					<div class="img">
@@ -50,27 +50,30 @@
 						<div class="col-lg-6">
 							<div class="cont">
 								<h4>
-									{{$about->experience_main_content}}
+									{{translate($dictionaries,"experience_main_content",$about->experience_main_content,"About",$about->id)}}
 								</h4>
 								<div class="exp mt-80 md-mb15">
-									<h2 class="fz-70 numb-font">{{$about->experience_number}} <span class="sub-title main-font opacity-7 ml-15">{{$about->experience_number_text}}</span></h2>
+									<h2 class="fz-70 numb-font">
+										{{translate($dictionaries,"experience_number",$about->experience_number,"About",$about->id)}}
+										<span class="sub-title main-font opacity-7 ml-15">{{translate($dictionaries,"experience_number_text",$about->experience_number_text,"About",$about->id)}}</span>
+									</h2>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-5">
 							<div class="text">
-								<p> {{$about->experience_second_content}}</p>
+								<p>{{translate($dictionaries,"experience_second_content",$about->experience_second_content,"About",$about->id)}}</p>
 							</div>
 							<div class="main-marq o-hidden mt-100">
 								<div class="slide-har st1">
 									<div class="box">
 										<div class="item">
-											<h4 class="d-flex align-items-center"><span>{{$about->experience_one}}</span>
+											<h4 class="d-flex align-items-center"><span>{{translate($dictionaries,"experience_one",$about->experience_one,"About",$about->id)}}</span>
 												<span class="fz-50 ml-50 stroke icon">*</span>
 											</h4>
 										</div>
 										<div class="item">
-											<h4 class="d-flex align-items-center"><span>{{$about->experience_tow}}</span>
+											<h4 class="d-flex align-items-center"><span>{{translate($dictionaries,"experience_tow",$about->experience_tow,"About",$about->id)}}</span>
 												<span class="fz-50 ml-50 stroke icon">*</span>
 											</h4>
 										</div>
@@ -111,25 +114,24 @@
 						<div class="col-lg-6 valign">
 							<div class="content full-width">
 								<div class="sec-head mb-50">
-									<h6 class="sub-title mb-15 main-color">{{$home->intro_main_title}}</h6>
+									<h6 class="sub-title mb-15 main-color">{{translate($dictionaries,"intro_main_title",$home->intro_main_title,"Home",$home->id)}}</h6>
 									<h2 class="d-slideup wow">
-										{{$home->intro_second_title}}
+										{{translate($dictionaries,"intro_second_title",$home->intro_second_title,"Home",$home->id)}}
 									</h2>
 								</div>
 								<div class="row justify-content-end">
 									<div class="col-lg-11">
 										<div class="text">
 											<p>
-												{{$home->intro_content}}
-
+												{{translate($dictionaries,"intro_content",$home->intro_content,"Home",$home->id)}}
 											</p>
 										</div>
 										<div class="row mt-50 pt-50 bord-thin-top">
 											<div class="col-sm-6">
 												<div class="item d-flex align-items-center sm-mb30">
-													<h2 class="fz-60 line-height-1"><span class="numb-count">{{$home->intro_one_number}}</span></h2>
+													<h2 class="fz-60 line-height-1"><span class="numb-count">{{translate($dictionaries,"intro_one_number",$home->intro_one_number,"Home",$home->id)}}</span></h2>
 													<span class="sub-title opacity-7 ml-30">
-														{{$home->intro_one_text}}
+														{{translate($dictionaries,"intro_one_text",$home->intro_one_text,"Home",$home->id)}}
 
 													</span>
 												</div>
@@ -137,10 +139,10 @@
 											<div class="col-sm-6">
 												<div class="item d-flex align-items-center">
 													<h2 class="fz-60 line-height-1">
-														{{$home->intro_tow_number}}
+														{{translate($dictionaries,"intro_tow_number",$home->intro_tow_number,"Home",$home->id)}}
 													</h2>
 													<span class="sub-title opacity-7 ml-30">
-														{{$home->intro_tow_text}}
+														{{translate($dictionaries,"intro_tow_text",$home->intro_tow_text,"Home",$home->id)}}
 													</span>
 												</div>
 											</div>
@@ -188,9 +190,9 @@
 										<div class="icon mb-40 opacity-5">
 											<img src="/uploads/{{$service->images[0]??''}}" alt="">
 										</div>
-										<h5 class="mb-15">{{$service->name}}</h5>
+										<h5 class="mb-15">{{translate($dictionaries,"name",$service->name,"Service",$service->id)}}</h5>
 										<p>
-											{{$service->description}}
+										{{translate($dictionaries,"description",$service->description,"Service",$service->id)}}
 										</p>
 										<a href="/web/service-details/{{$service->id}}" class="rmore mt-30">
 											<span class="sub-title">{{__('general.Read More')}}</span>
@@ -210,66 +212,34 @@
 
 
 
-			<!-- ==================== Start Marquee ==================== -->
+			<!-- ====================$home->adv_text,Start Marquee ==================== -->
 
 			<section>
 				<div class="main-marq xlrg o-hidden">
 					<div class="slide-har st1">
 						<div class="box">
 							<div class="item">
-								<h4 class="d-flex align-items-center"><span>{{$home->adv_text}}</span>
+								<h4 class="d-flex align-items-center"><span>{{translate($dictionaries, 'adv_text',$home->adv_text,'Home', $home->id)}}</span>
 									<span class="fz-50 ml-50 stroke icon">*</span>
 								</h4>
 							</div>
 							<div class="item">
-								<h4 class="d-flex align-items-center"><span>{{$home->adv_text}}</span>
+								<h4 class="d-flex align-items-center"><span>{{translate($dictionaries, 'adv_text',$home->adv_text,'Home', $home->id)}}</span>
 									<span class="fz-50 ml-50 stroke icon">*</span>
 								</h4>
 							</div>
 							<div class="item">
-								<h4 class="d-flex align-items-center"><span>{{$home->adv_text}}</span>
+								<h4 class="d-flex align-items-center"><span>{{translate($dictionaries, 'adv_text',$home->adv_text,'Home', $home->id)}}</span>
 									<span class="fz-50 ml-50 stroke icon">*</span>
 								</h4>
 							</div>
 							<div class="item">
-								<h4 class="d-flex align-items-center"><span>{{$home->adv_text}}</span>
+								<h4 class="d-flex align-items-center"><span>{{translate($dictionaries, 'adv_text',$home->adv_text,'Home', $home->id)}}</span>
 									<span class="fz-50 ml-50 stroke icon">*</span>
 								</h4>
 							</div>
 							<div class="item">
-								<h4 class="d-flex align-items-center"><span>{{$home->adv_text}}</span>
-									<span class="fz-50 ml-50 stroke icon">*</span>
-								</h4>
-							</div>
-						</div>
-						<div class="box">
-							<div class="item">
-								<h4 class="d-flex align-items-center"><span>Amazing
-										Design</span>
-									<span class="fz-50 ml-50 stroke icon">*</span>
-								</h4>
-							</div>
-							<div class="item">
-								<h4 class="d-flex align-items-center"><span>Amazing
-										Design</span>
-									<span class="fz-50 ml-50 stroke icon">*</span>
-								</h4>
-							</div>
-							<div class="item">
-								<h4 class="d-flex align-items-center"><span>Amazing
-										Design</span>
-									<span class="fz-50 ml-50 stroke icon">*</span>
-								</h4>
-							</div>
-							<div class="item">
-								<h4 class="d-flex align-items-center"><span>Amazing
-										Design</span>
-									<span class="fz-50 ml-50 stroke icon">*</span>
-								</h4>
-							</div>
-							<div class="item">
-								<h4 class="d-flex align-items-center"><span>Amazing
-										Design</span>
+								<h4 class="d-flex align-items-center"><span>{{translate($dictionaries, 'adv_text',$home->adv_text, 'Home', $home->id)}}</span>
 									<span class="fz-50 ml-50 stroke icon">*</span>
 								</h4>
 							</div>
@@ -306,8 +276,8 @@
 										<a href="/web/project-details/{{$project->id}}" class="link-overlay"></a>
 									</div>
 									<div class="cont">
-										<span class="tag">{{$project->category->name}}</span>
-										<h2>{{$project->name}}</h2>
+										<span class="tag">{{translate($dictionaries, 'name', 'ProjectCategory',$project->category->name, $project->category->id)}}</span>
+										<h2>{{translate($dictionaries, 'name',$project->name,'Project', $project->id)}}</h2>
 									</div>
 								</div>
 							</div>
@@ -319,8 +289,8 @@
 						<ul class="rest">
 							@foreach($projects as $index=>$project)
 							<li id="tab-{{$index+1}}">
-								<span class="tag">{{$project->category->name}}</span>
-								<h2>{{$project->name}}</h2>
+								<span class="tag">{{translate($dictionaries, 'name',$project->category->name, 'ProjectCategory', $project->category->id)}}</span>
+								<h2>{{translate($dictionaries, 'name',$project->name, 'Project', $project->id)}}</h2>
 							</li>
 							@endforeach
 						</ul>
@@ -369,7 +339,7 @@
 															</path>
 														</svg>
 														<p class="fz-30">
-															{{$review->review}}
+														{{translate($dictionaries, 'review',$review->review, 'Review', $review->id)}}
 														</p>
 													</div>
 													<div class="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
@@ -379,8 +349,8 @@
 															</div>
 														</div>
 														<div class="ml-20">
-															<h5>{{$review->job}}</h5>
-															<span class="sub-title main-color">{{$review->name}}</span>
+															<h5>{{translate($dictionaries, 'job',$review->job, 'Review', $review->id)}}</h5>
+															<span class="sub-title main-color">{{translate($dictionaries, 'name',$review->name, 'Review', $review->id)}}</span>
 														</div>
 													</div>
 												</div>
@@ -442,8 +412,8 @@
 									</a>
 									<a href="/web/team-details/{{$team->id}}">
 										<div class="info">
-											<span class="fz-12">{{$team->name}}</span>
-											<h6 class="fz-18">{{$team->job}}</h6>
+											<span class="fz-12">{{translate($dictionaries, 'name',$team->name, 'Team', $team->id)}}</span>
+											<h6 class="fz-18">{{translate($dictionaries, 'job',$team->job, 'Team', $team->id)}}</h6>
 										</div>
 									</a>
 								</div>
@@ -511,12 +481,14 @@
 										<div class="full-width">
 											<div class="tags mb-15">
 												@foreach($blog->blogCategories as $category)
-												<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">{{$category->name_trans}}</a>
+												<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">
+													{{translate($dictionaries,'name',$category->name, 'BlogCategory', $category->id)}}
+												</a>
 												@endforeach
 											</div>
 											<h5>
 												<a href="/web/blog-details/{{$blog->id}}">
-													{{$blog->name_trans}}
+												{{translate($dictionaries,'name',$blog->name, 'Blog', $blog->id)}}
 												</a>
 											</h5>
 											<span class="date fz-12 ls1 text-u opacity-7 mt-80">

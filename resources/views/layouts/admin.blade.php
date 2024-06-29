@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-  <title>{{$app_name}}</title>
+  <title>{{translate($dictionaries, 'app_name_en',$app_name_en,'AdminSetting', $admin_setting_id)}}</title>
 
   <meta name="description" content="" />
 
@@ -223,7 +223,7 @@
               <img style="width: 100%;height: 100%;object-fit: cover;" src="/uploads/{{$image}}" />
             </span>
 
-            <span class="app-brand-text demo menu-text fw-bold">{{$app_name}}</span>
+            <span class="app-brand-text demo menu-text fw-bold">{{translate($dictionaries, 'app_name_en',$app_name_en,'AdminSetting', $admin_setting_id)}}</span>
           </a>
 
           <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -337,10 +337,26 @@
                     </a>
                   </li>
                   @endif
+
                   @if(auth()->user()->can('super admin')||auth()->user()->can('view blog'))
                   <li class="menu-item">
                     <a href="/admin/blogs?page=1&page_size=10" class="menu-link">
                       <div>{{__('general.Blogs')}}</div>
+                    </a>
+                  </li>
+                  @endif
+                </ul>
+              </li>
+              <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                  <i class="menu-icon tf-icons ti ti-layout-sidebar"></i>
+                  <div>{{__('general.lang')}}</div>
+                </a>
+                <ul class="menu-sub">
+                  @if(auth()->user()->can('super admin')||auth()->user()->can('view lang'))
+                  <li class="menu-item">
+                    <a href="/admin/langs?page=1&page_size=10" class="menu-link">
+                      <div>{{__('general.lang')}}</div>
                     </a>
                   </li>
                   @endif
@@ -456,16 +472,13 @@
                   <i class="ti ti-language rounded-circle ti-md"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
+                  @foreach($langs as $lang)
                   <li>
-                    <a href="/set-locale/en" class="dropdown-item" data-language="en" data-text-direction="ltr">
-                      <span class="align-middle">{{__('general.English')}}</span>
+                    <a href="/set-locale/{{$lang->key}}" class="dropdown-item" data-language="{{$lang->key}}" data-text-direction="{{$lang->is_rtl?'rtl':'ltr'}}">
+                      <span class="align-middle">{{$lang->name}}</span>
                     </a>
                   </li>
-                  <li>
-                    <a href="/set-locale/ar" class="dropdown-item" data-language="ar" data-text-direction="rtl">
-                      <span class="align-middle">{{__('general.Arabic')}}</span>
-                    </a>
-                  </li>
+                  @endforeach
                 </ul>
               </li>
               <!--/ Language -->
@@ -868,12 +881,6 @@
                   <h6>{{__('general.Basic information')}}</h6>
                   <div class="col-sm-12">
                     <div class="mb-2">
-                      <label class="form-label" for="basicFullname">{{__('general.app_name_ar')}}</label>
-                      <input v-model="app_name_ar" type="text" id="app_name_ar" class="form-control dt-full-name" name="app_name_ar" placeholder="{{__('general.app_name_ar')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-                    </div>
-                  </div>
-                  <div class="col-sm-12">
-                    <div class="mb-2">
                       <label class="form-label" for="basicPost">{{__('general.app_name_en')}}</label>
                       <input v-model="app_name_en" type="text" id="app_name_en" name="app_name_en" class="form-control dt-post" placeholder="{{__('general.app_name_en')}}" aria-label="Web Developer" aria-describedby="basicPost2" />
                     </div>
@@ -1027,8 +1034,7 @@
       components: {},
       data: {
         loading: false,
-        app_name_ar: @json($app_name_ar),
-        app_name_en: @json($app_name_en),
+        app_name_en: "{{translate($dictionaries, 'app_name_en',$app_name_en, 'AdminSetting', $admin_setting_id)}}",
         color: @json($color),
         image: @json($image),
         empty: @json($empty)
@@ -1038,7 +1044,6 @@
           fvAdmin.validate().then((status) => {
             if (status != "Invalid") {
               let formData = new FormData();
-              formData.append("app_name_ar", this.app_name_ar);
               formData.append("app_name_en", this.app_name_en);
               formData.append("color", this.color);
               if (adminUploadedFiles.length) {
@@ -1115,13 +1120,6 @@
       const formAddNewRecord = document.getElementById('form-add-new-record-admin');
       fvAdmin = FormValidation.formValidation(formAddNewRecord, {
         fields: {
-          app_name_ar: {
-            validators: {
-              notEmpty: {
-                message: @json(__('general.the field is required'))
-              }
-            }
-          },
           app_name_en: {
             validators: {
               notEmpty: {

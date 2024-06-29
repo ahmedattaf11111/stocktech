@@ -8,7 +8,9 @@
 			</div>
 			<div class="modal-body">
 				<form @submit.prevent="save">
-					<h5 class="text-center" style="margin-bottom: 20px;">{{__('general.Apply to')}}{{$career->name}}</h5>
+					<h5 class="text-center" style="margin-bottom: 20px;">{{__('general.Apply to')}}
+						{{translate($dictionaries, 'name',$career->name,'Career', $career->id)}}
+					</h5>
 					<div class="social-links mb-4">
 						<a target="__blank" href="{{$web_twitter}}"><i class="fab fa-twitter"></i></a>
 						<a target="__blank" href="{{$web_facebook}}"><i class="fab fa-facebook"></i></a>
@@ -65,12 +67,21 @@
 		<div class="container-xl">
 			<div class="info d-flex align-items-center mb-10">
 				<div>
-					<span class="category">{{$career->careerTeam->name}}</span>
-					<span class="category">{{$career->careerType->name}}</span>
+					<span class="category">
+						{{translate($dictionaries, 'name',$career->careerTeam->name,'CareerTeam', $career->careerTeam->id)}}
+
+					</span>
+					<span class="category">
+						{{translate($dictionaries, 'name',$career->careerType->name,'CareerType', $career->careerType->id)}}
+					</span>
 				</div>
-				<div class="date">{{$career->location->name}}</div>
+				<div class="date">
+					{{$career->location->name}}
+				</div>
 			</div>
-			<h1 class="fz-80">{{$career->name}}</h1>
+			<h1 class="fz-80">
+				{{translate($dictionaries, 'name',$career->name,'Career', $career->id)}}
+			</h1>
 		</div>
 	</header>
 
@@ -99,7 +110,7 @@
 						<div class="text">
 							<h2 class="mb-30">{{__('general.requirments')}}</h2>
 							<h5 class="mb-30 line-height-40">
-								{!!$career->requirment!!}
+								{!! translate($dictionaries, 'requirment',$career->requirment,'Career', $career->id) !!}
 							</h5>
 						</div>
 						<div class="info pt-80 mt-80 bord-thin-top">
@@ -107,13 +118,17 @@
 								<div class="col-md-6">
 									<div class="item mb-30">
 										<span class="opacity-8 mb-5">{{__('general.team')}} :</span>
-										<h6>{{$career->careerTeam->name}}</h6>
+										<h6>
+											{{ translate($dictionaries, 'name',$career->careerTeam->name,'CareerTeam', $career->careerTeam->id) }}
+										</h6>
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="item mb-30">
 										<span class="opacity-8 mb-5">{{__('general.Type')}} :</span>
-										<h6>{{$career->careerType->name}}</h6>
+										<h6>
+											{{ translate($dictionaries, 'name',$career->careerType->name,'CareerType', $career->careerType->id) }}
+										</h6>
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -166,7 +181,9 @@
 									{{__('general.Next Project')}}
 									@endif
 								</h6>
-								<a href="/web/career-details/{{$career->id}}" class="fz-40 fw-600 stroke">{{$career->name}}</a>
+								<a href="/web/career-details/{{$career->id}}" class="fz-40 fw-600 stroke">
+									{{ translate($dictionaries, 'name',$career->name,'Career', $career->id) }}
+								</a>
 							</div>
 						</div>
 					</div>

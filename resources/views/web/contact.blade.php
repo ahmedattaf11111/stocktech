@@ -30,14 +30,18 @@
 					<div class="col-lg-5 valign">
 						<div class="sec-head md-mb80">
 							<h2 class="text-u ls1 d-rotate wow">
-								<span class="rotate-text">{{$web_contact_title}}</span>
+								<span class="rotate-text">
+									{{translate($dictionaries, 'contact_title',$web_contact_title, 'WebSetting', $web_setting_id)}}
+								</span>
 							</h2>
-							<p class="mt-20 mb-20">{{$web_contact_content}}</p>
+							<p class="mt-20 mb-20">{{translate($dictionaries, 'contact_content',$web_contact_content, 'WebSetting', $web_setting_id)}}</p>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="morinfo mt-30">
 										<h6 class="mb-15">{{__('general.address')}}</h6>
-										<p>{{$web_address}}</p>
+										<p>
+											{{translate($dictionaries, 'address',$web_address, 'WebSetting', $web_setting_id)}}
+										</p>
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -154,13 +158,13 @@
 														</path>
 													</svg>
 													<h4>
-														{{$review->review}}
+														{{translate($dictionaries, 'review',$review->review, 'Review', $review->id)}}
 													</h4>
 												</div>
 												<div class="info d-flex align-items-center pt-40 mt-40 bord-thin-top">
 													<div>
-														<h5>{{$review->name}}</h5>
-														<span class="sub-title main-color">{{$review->job}}</span>
+														<h5>{{translate($dictionaries, 'name',$review->name, 'Review', $review->id)}}</h5>
+														<span class="sub-title main-color">{{translate($dictionaries, 'job',$review->job, 'Review', $review->id)}}</span>
 													</div>
 													<div class="ml-auto">
 														<div class="rate-stars fz-14">
@@ -222,7 +226,9 @@
 											</div>
 										</div>
 										<div class="ml-15 fz-14">
-											<div><span class="opacity-7">{{__('general.Posted by')}}</span><br>{{$blog->author_name}}</div>
+											<div><span class="opacity-7">{{__('general.Posted by')}}</span><br>
+											{{translate($dictionaries, 'author_name',$blog->author_name, 'Blog', $blog->id)}}
+										</div>
 										</div>
 									</div>
 								</div>
@@ -230,12 +236,14 @@
 									<div class="full-width">
 										<div class="tags mb-15">
 											@foreach($blog->blogCategories as $category)
-											<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">{{$category->name_trans}}</a>
+											<a href="/web/blogs?page=1&page_size=6&category_id={{$category->id}}">
+												{{translate($dictionaries, 'name',$category->name, 'BlogCategory', $category->id)}}
+											</a>
 											@endforeach
 										</div>
 										<h5>
 											<a href="/web/blog-details/{{$blog->id}}">
-												{{$blog->name_trans}}
+												{{translate($dictionaries, 'name',$blog->name, 'Blog', $blog->id)}}
 											</a>
 										</h5>
 										<span class="date fz-12 ls1 text-u opacity-7 mt-80">

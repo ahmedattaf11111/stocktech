@@ -13,7 +13,9 @@
 					<div class="row align-items-end">
 						<div class="col-lg-8 md-mb50">
 							<div>
-								<h1 class="fz-100">{{$project->name}}</h1>
+								<h1 class="fz-100">
+									{{translate($dictionaries, 'name',$project->name, 'Project', $project->id)}}
+								</h1>
 							</div>
 						</div>
 						<div class="col-lg-4">
@@ -22,13 +24,17 @@
 									<div class="col-md-6">
 										<div class="item mb-30">
 											<span class="opacity-8 mb-5">{{__('general.Category')}} :</span>
-											<h6>{{$project->category->name}}</h6>
+											<h6>
+												{{translate($dictionaries, 'name',$project->category->name, 'ProjectCategory', $project->category->id)}}
+											</h6>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="item mb-30">
 											<span class="opacity-8 mb-5">{{__('general.Client')}} :</span>
-											<h6>{{$project->client}}</h6>
+											<h6>
+												{{translate($dictionaries, 'client',$project->client, 'Project', $project->id)}}
+											</h6>
 										</div>
 									</div>
 									<div class="col-md-6">
@@ -43,7 +49,9 @@
 									<div class="col-md-6">
 										<div class="item">
 											<span class="opacity-8 mb-5">{{__('general.Designer')}} :</span>
-											<h6>{{$project->designer}}</h6>
+											<h6>
+												{{translate($dictionaries, 'designer',$project->designer, 'Project', $project->id)}}
+											</h6>
 										</div>
 									</div>
 								</div>
@@ -64,12 +72,14 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-5">
-							<h2 class="mb-50">{{$project->section_one_title}}</h2>
+							<h2 class="mb-50">
+								{{translate($dictionaries, 'section_one_title',$project->section_one_title, 'Project', $project->id)}}
+							</h2>
 						</div>
 						<div class="col-lg-7">
 							<div class="text">
 								<h5 class="mb-30 fw-400 line-height-40">
-									{{$project->section_one_content}}
+									{{translate($dictionaries, 'section_one_content',$project->section_one_content, 'Project', $project->id)}}
 								</h5>
 							</div>
 						</div>
@@ -108,9 +118,11 @@
 					<div class="row justify-content-end">
 						<div class="col-lg-7">
 							<div class="text">
-								<h2 class="mb-50">{{$project->section_tow_title}}</h2>
+								<h2 class="mb-50">
+									{{translate($dictionaries, 'section_tow_title',$project->section_tow_title, 'Project', $project->id)}}
+								</h2>
 								<h5 class="mb-30 fw-400">
-									{{$project->section_tow_content}}
+									{{translate($dictionaries, 'section_tow_content',$project->section_tow_content, 'Project', $project->id)}}
 								</h5>
 							</div>
 						</div>
@@ -140,7 +152,9 @@
 											{{__('general.Next Project')}}
 											@endif
 										</h6>
-										<a href="/web/project-details/{{$project->id}}" class="fz-40 fw-600 stroke">{{$project->name}}</a>
+										<a href="/web/project-details/{{$project->id}}" class="fz-40 fw-600 stroke">
+											{{translate($dictionaries, 'name',$project->name, 'Project', $project->id)}}
+										</a>
 									</div>
 								</div>
 							</div>
@@ -178,7 +192,7 @@
 			let sections = gsap.utils.toArray(".panel");
 
 			gsap.to(sections, {
-				xPercent: @json(app()->getLocale()=='en'?-1:1)*100 * (sections.length - 1),
+				xPercent: @json(app() -> getLocale() == 'en' ? -1 : 1) * 100 * (sections.length - 1),
 				ease: "none",
 				scrollTrigger: {
 					trigger: ".thecontainer",

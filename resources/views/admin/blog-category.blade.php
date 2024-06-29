@@ -57,13 +57,6 @@
 								<input v-model="name" type="text" id="name" class="form-control dt-full-name" name="name" placeholder="{{__('general.Name')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
 							</div>
 						</div>
-						<div class="col-sm-12">
-							<div class="mb-2">
-								<label class="form-label" for="basicFullname">{{__('general.Name')}}</label>
-								<input v-model="name_ar" type="text" id="name_ar" class="form-control dt-full-name" name="name_ar" placeholder="{{__('general.Name in arabic')}}" aria-label="John Doe" aria-describedby="basicFullname2" />
-							</div>
-						</div>
-
 						<div class="col-12 text-center">
 							@if(auth()->user()->can('super admin')||auth()->user()->can('create blog-category'))
 							<button type="submit" class="btn btn-primary me-sm-3 me-1">
@@ -141,13 +134,12 @@
 										</label>
 									</td>
 									<td>#@{{item.id}}</td>
-									<td>@{{item.name_trans}}</td>
+									<td>@{{translate("name", item.name, "BlogCategory", item.id)}}</td>
 									<td>
 										<div class="d-flex align-items-center">
-											<a data-bs-target="#add-new-record" data-bs-toggle='offcanvas' @click="show(item)" href="javascript:;" class="text-body">
+											<a data-bs-target="#form-add-new-record" data-bs-toggle='modal' @click="show(item)" href="javascript:;" class="text-body">
 												<i class="ti ti-{{auth()->user()->can('super admin')||auth()->user()->can('update blog-category')?'edit':'eye'}} ti-sm me-2"></i>
 											</a>
-											
 											@if(auth()->user()->can('super admin')||auth()->user()->can('delete blog-category'))
 											<a @click="onDeleteClicked([item.id])" href="javascript:;" class="text-body delete-record"><i class="ti ti-trash ti-sm mx-2"></i></a>
 											@endif
@@ -211,6 +203,8 @@
 		el: "#app",
 		components: {},
 		data: {
+			lang: @json(app() -> getLocale()),
+			dictionaries: @json($dictionaries),
 			ids: [],
 			loading: false,
 			text: "",
@@ -219,10 +213,30 @@
 			message: 'Hello Vue!',
 			items: @json($items),
 			name: "",
-			name_ar: "",
 			id: "",
 		},
 		methods: {
+			translate(key, def, className = null, model_id = null) {
+				let dic = null;
+				if (className) {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key && elm.class == className && elm.model_id == model_id;
+					});
+				} else {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key;
+					});
+				}
+				return dic.length ? dic[0].value : def;
+			},
+
+			getDictionaries() {
+				axios.get(`${baseUrl}/dictionaries`).then(res => {
+					this.dictionaries = res.data;
+				})
+			},
+
+
 			setAllIds() {
 				if (this.ids.length == this.items.data.length) {
 					this.ids = [];
@@ -301,21 +315,22 @@
 						toastAnimationExample.querySelector('.ti').classList.add("text-primary");
 						toastAnimation = new bootstrap.Toast(toastAnimationExample);
 						toastAnimation.show();
+						if (action == "create" || action == "update") {
+							this.getDictionaries();
+						}
+
 					}
 				})
 			},
 			show(item) {
 				fv.resetForm();
-				this.name = item.name;
-				this.name_ar = item.name_ar;
 				this.id = item.id;
-
+				this.name =this.translate("name", item.name, "BlogCategory", this.id);
 				uploadedFiles = [];
 			},
 			onAddClicked() {
 				fv.resetForm();
 				this.name = "";
-				this.name_ar = "";
 				this.id = "";
 			},
 			save() {
@@ -323,7 +338,6 @@
 					if (status != "Invalid") {
 						let formData = new FormData();
 						formData.append("name", this.name);
-						formData.append("name_ar", this.name_ar);
 						if (!this.id) {
 							this.loading = true;
 							axios.post(`${baseUrl}/admin/blog-categories`, formData).then(res => {
@@ -355,13 +369,6 @@
 		fv = FormValidation.formValidation(formAddNewRecord, {
 			fields: {
 				name: {
-					validators: {
-						notEmpty: {
-							message: @json(__('general.the field is required'))
-						}
-					}
-				},
-				name_ar: {
 					validators: {
 						notEmpty: {
 							message: @json(__('general.the field is required'))

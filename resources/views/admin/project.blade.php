@@ -126,7 +126,7 @@
 							<div class="select2-primary">
 								<select id="categorySelect2Primary" name="category_id" id="categorySelect2Primary" class="select2 form-select">
 									<option :selected="category_id==category.id" v-for="category in categories" :value="category.id">
-										@{{category.name}}
+										@{{translate("name",category.name,"ProjectCategory", category.id)}}
 									</option>
 								</select>
 							</div>
@@ -272,11 +272,11 @@
 												<img class="table-image" :src="`/uploads/${item.images[0]}`" />
 											</a>
 											<div class="info">
-												<div class="text-body text-wrap fw-medium">@{{item.name}}</div>
+												<div class="text-body text-wrap fw-medium">@{{translate("name",item.name,"Project", item.id)}}</div>
 											</div>
 										</div>
 									</td>
-									<td>@{{item.name}}</td>
+									<td>@{{translate("name",item.name,"Project", item.id)}}</td>
 									<td>
 										<div class="d-flex align-items-center">
 											<a data-bs-target="#add-new-record" data-bs-toggle='offcanvas' @click="show(item)" href="javascript:;" class="text-body">
@@ -411,6 +411,8 @@
 		},
 		data: {
 			ids: [],
+			dictionaries: @json($dictionaries),
+			lang: @json(app() -> getLocale()),
 			loading: false,
 			text: "",
 			page: 1,
@@ -432,6 +434,25 @@
 		},
 
 		methods: {
+			translate(key, def, className = null, model_id = null) {
+				let dic = null;
+				if (className) {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key && elm.class == className && elm.model_id == model_id;
+					});
+				} else {
+					dic = this.dictionaries.filter((elm) => {
+						return elm.lang == this.lang && elm.key == key;
+					});
+				}
+				return dic.length ? dic[0].value : def;
+			},
+			getDictionaries() {
+				axios.get(`${baseUrl}/dictionaries`).then(res => {
+					this.dictionaries = res.data;
+				})
+			},
+
 			onManageImageOpen() {
 				$(".canvase-close").click();
 			},
@@ -534,6 +555,9 @@
 						toastAnimationExample.querySelector('.ti').classList.add("text-primary");
 						toastAnimation = new bootstrap.Toast(toastAnimationExample);
 						toastAnimation.show();
+						if (action == "create" || action == "update") {
+							this.getDictionaries();
+						}
 					}
 				})
 			},
@@ -541,15 +565,15 @@
 				fv.resetForm();
 				this.item = item;
 				this.id = item.id;
-				this.name = item.name;
-				this.description = item.description;
-				this.client = item.client;
+				this.name = this.translate("name",item.name,"Project", this.id);
+				this.description = this.translate("description",item.description, "Project", this.id);
+				this.client = this.translate("client",item.client, "Project", this.id);
 				this.category_id = item.category_id;
-				this.designer = item.designer;
-				this.section_one_title = item.section_one_title;
-				this.section_one_content = item.section_one_content;
-				this.section_tow_title = item.section_tow_title;
-				this.section_tow_content = item.section_tow_content;
+				this.designer = this.translate("designer",item.designer,"Project", this.id);;
+				this.section_one_title = this.translate("section_one_title",item.section_one_title, "Project", this.id);;
+				this.section_one_content = this.translate("section_one_content",item.section_one_content,"Project", this.id);;
+				this.section_tow_title = this.translate("section_tow_title",item.section_tow_title,"Project", this.id);;
+				this.section_tow_content = this.translate("section_tow_content",item.section_tow_content,"Project", this.id);;
 				this.images = item.images;
 				setTimeout(() => {
 					initSelect2();

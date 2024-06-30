@@ -18,7 +18,7 @@
   <title>{{translate($dictionaries, 'app_name_en',$web_app_name_en, 'WebSetting', $web_setting_id)}}</title>
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="/web/assets/imgs/favicon.ico">
+  <link rel="shortcut icon" href="/uploads/{{$web_black_logo}}">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
